@@ -14,27 +14,71 @@ const LISTS = [
   'FIDI - Séquence principale',
   'FIDI - Réengagement A (non-ouvreurs)',
   'FIDI - Réengagement B (ouvreurs sans clic)',
-  'Onboarding - Essai gratuit',
 ];
 
+// subjectA / subjectB = variantes d'objet A/B à tester dans Brevo Automation.
+// Chaque template est créé deux fois : "<name>_A" (subjectA) et "<name>_B" (subjectB).
 const TEMPLATES = [
-  { name: 'FIDI_J0',        subject: 'Vous avez eu un no-show cette semaine ?' },
-  { name: 'FIDI_J3',        subject: "3 automatisations que j'aurais aimé avoir plus tôt" },
-  { name: 'FIDI_J7',        subject: 'Combien de temps vous perdez à chercher un numéro de téléphone ?' },
-  { name: 'FIDI_J10',       subject: 'Des propriétaires qui ont besoin de vous. Chaque matin.' },
-  { name: 'FIDI_J14',       subject: 'Un doute pendant un diagnostic. Vous faites quoi ?' },
-  { name: 'FIDI_J21',       subject: "C'est mon dernier email" },
-  { name: 'REENG_A_R1',     subject: 'Un outil créé par un diagnostiqueur, pour les diagnostiqueurs' },
-  { name: 'REENG_B_R1',     subject: "Qu'est-ce qui vous a retenu ?" },
-  { name: 'REENG_A_R4',     subject: 'Des diagnostiqueurs de votre zone prospectent déjà' },
-  { name: 'REENG_B_R4',     subject: "La fonctionnalité que personne n'attend et que tout le monde utilise" },
-  { name: 'REENG_A_R8',     subject: "Je ne vous écrirai plus" },
-  { name: 'REENG_B_R8',     subject: 'Dernier email — et une question honnête' },
-  { name: 'ONBOARDING_J0',  subject: 'Bienvenue sur Diag Assist 👋' },
-  { name: 'ONBOARDING_J1',  subject: '3 fonctionnalités à activer en 5 minutes' },
-  { name: 'ONBOARDING_J3',  subject: 'Vos rendez-vous et vos devis, enfin organisés' },
-  { name: 'ONBOARDING_J5',  subject: 'Des prospects qui cherchent exactement ce que vous faites' },
-  { name: 'ONBOARDING_J7',  subject: 'Une dernière chose avant la fin de votre essai' },
+  {
+    name: 'FIDI_J0',
+    subjectA: 'Vous avez eu un no-show cette semaine ?',
+    subjectB: 'Combien de no-shows par mois dans votre activité ?',
+  },
+  {
+    name: 'FIDI_J3',
+    subjectA: "3 automatisations que j'aurais aimé avoir plus tôt",
+    subjectB: "Ce qui m'a fait gagner le plus de temps (en 10 min)",
+  },
+  {
+    name: 'FIDI_J7',
+    subjectA: 'Combien de temps vous perdez à chercher un numéro de téléphone ?',
+    subjectB: 'Vos clients, vos RDV, vos devis — au même endroit',
+  },
+  {
+    name: 'FIDI_J10',
+    subjectA: 'Des propriétaires qui ont besoin de vous. Chaque matin.',
+    subjectB: 'Chaque matin à 6h : les annonces sans DPE de votre zone',
+  },
+  {
+    name: 'FIDI_J14',
+    subjectA: 'Un doute pendant un diagnostic. Vous faites quoi ?',
+    subjectB: 'La réponse réglementaire exacte en 5 secondes',
+  },
+  {
+    name: 'FIDI_J21',
+    subjectA: "C'est mon dernier email",
+    subjectB: 'Je ne vais plus vous écrire',
+  },
+  {
+    name: 'REENG_A_R1',
+    subjectA: 'Un outil créé par un diagnostiqueur, pour les diagnostiqueurs',
+    subjectB: "J'ai créé Diag Assist parce que je faisais votre métier",
+  },
+  {
+    name: 'REENG_B_R1',
+    subjectA: "Qu'est-ce qui vous a retenu ?",
+    subjectB: 'Le timing, le prix, ou autre chose ?',
+  },
+  {
+    name: 'REENG_A_R4',
+    subjectA: 'Des diagnostiqueurs de votre zone prospectent déjà',
+    subjectB: 'Vos confrères envoient déjà ces messages le matin',
+  },
+  {
+    name: 'REENG_B_R4',
+    subjectA: "La fonctionnalité que personne n'attend et que tout le monde utilise",
+    subjectB: 'Celle qui surprend le plus les nouveaux utilisateurs',
+  },
+  {
+    name: 'REENG_A_R8',
+    subjectA: "Je ne vous écrirai plus",
+    subjectB: 'Dernière chance (vraiment)',
+  },
+  {
+    name: 'REENG_B_R8',
+    subjectA: 'Dernier email — et une question honnête',
+    subjectB: 'Avant de fermer la séquence, une question',
+  },
 ];
 
 function fail(msg) {
@@ -75,10 +119,9 @@ async function createList(name, folderId) {
   return res.id;
 }
 
-async function createTemplate({ name, subject }) {
-  const htmlContent = await fs.readFile(path.join(TEMPLATE_DIR, `${name}.html`), 'utf8');
+async function createTemplate({ templateName, subject, htmlContent }) {
   const res = await brevo('POST', '/smtp/templates', {
-    templateName: name,
+    templateName,
     subject,
     sender: { name: SENDER_NAME, email: SENDER_EMAIL },
     htmlContent,
@@ -111,11 +154,20 @@ async function main() {
     console.log(`  "${name}" → id=${id}`);
   }
 
-  console.log('\n→ Templates…');
+  console.log('\n→ Templates (variantes A/B)…');
   for (const tpl of TEMPLATES) {
-    const id = await createTemplate(tpl);
-    output.templates[tpl.name] = id;
-    console.log(`  ${tpl.name} → id=${id}`);
+    const htmlContent = await fs.readFile(path.join(TEMPLATE_DIR, `${tpl.name}.html`), 'utf8');
+    const variants = [
+      { suffix: '_A', subject: tpl.subjectA },
+      { suffix: '_B', subject: tpl.subjectB },
+    ];
+    output.templates[tpl.name] = {};
+    for (const v of variants) {
+      const templateName = `${tpl.name}${v.suffix}`;
+      const id = await createTemplate({ templateName, subject: v.subject, htmlContent });
+      output.templates[tpl.name][v.suffix.slice(1)] = { id, subject: v.subject };
+      console.log(`  ${templateName} → id=${id}  « ${v.subject} »`);
+    }
   }
 
   await fs.writeFile(OUTPUT_FILE, JSON.stringify(output, null, 2));
