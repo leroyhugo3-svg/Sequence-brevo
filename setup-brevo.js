@@ -21,8 +21,8 @@ const LISTS = [
 const TEMPLATES = [
   {
     name: 'FIDI_J0',
-    subjectA: 'Vous avez eu un no-show cette semaine ?',
-    subjectB: 'Combien de no-shows par mois dans votre activité ?',
+    subjectA: 'Vous avez eu un RDV manqué cette semaine ?',
+    subjectB: 'Combien de rendez-vous manqués par mois dans votre activité ?',
   },
   {
     name: 'FIDI_J3',
