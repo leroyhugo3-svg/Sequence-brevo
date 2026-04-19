@@ -1,0 +1,16 @@
+{
+  "name": "diag-assist-brevo-setup",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Script de configuration Brevo pour Diag Assist (listes + templates).",
+  "scripts": {
+    "setup": "node setup-brevo.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
