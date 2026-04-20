@@ -4,7 +4,7 @@ import path from 'node:path';
 
 const API_KEY = process.env.BREVO_API_KEY;
 const SENDER_NAME = process.env.SENDER_NAME || 'Hugo - Diag Assist';
-const SENDER_EMAIL = process.env.SENDER_EMAIL || 'hugo@diagassist.fr';
+const SENDER_EMAIL = process.env.SENDER_EMAIL || 'bonjour@contact.diagassist.fr';
 const BASE_URL = 'https://api.brevo.com/v3';
 const OUTPUT_FILE = 'brevo-ids.json';
 const TEMPLATE_DIR = 'email-templates';
