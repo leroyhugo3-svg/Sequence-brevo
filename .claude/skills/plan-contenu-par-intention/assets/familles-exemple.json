@@ -1,0 +1,114 @@
+[
+  {
+    "cle": "conformite-potabilite",
+    "libelle": "Rendre une eau de puits potable / conformité",
+    "intention": "savoir ce qu'il faut faire pour que l'eau de mon puits soit buvable, et ce que la loi exige",
+    "format": "page de référence datée : étapes, obligations déclaratives, source officielle",
+    "motif": "\\b(potabilisation|potable|conformite|conforme|declaration|declarer|arrete|ars|reglementation|obligation|legal|autorise|mairie)\\b"
+  },
+  {
+    "cle": "analyse",
+    "libelle": "Faire analyser son eau",
+    "intention": "savoir ce que contient mon eau avant de choisir quoi que ce soit",
+    "format": "guide de décision : quels paramètres, où faire analyser, combien ça coûte, comment lire le rapport",
+    "motif": "\\b(analyse|analyser|test|tester|qualite|laboratoire|prelevement|bulletin|resultat|parametre)\\b"
+  },
+  {
+    "cle": "fer-symptome",
+    "libelle": "Eau jaune, orange, taches de rouille (symptôme)",
+    "intention": "comprendre pourquoi mon eau est colorée et tache, et si c'est dangereux",
+    "format": "page de diagnostic : symptôme → cause probable → vérification → orientation",
+    "motif": "\\b(jaune|orange|rouille|marron|ferrugineuse|tache|taches|trace|traces|linge|sanitaire|sanitaires)\\b"
+  },
+  {
+    "cle": "fer-solution",
+    "libelle": "Déferrisation (solution)",
+    "intention": "choisir et faire installer un traitement du fer",
+    "format": "page solution : principe, dimensionnement, coût, entretien, limites",
+    "motif": "\\b(fer|deferriseur|deferrisation|deferrisateur)\\b"
+  },
+  {
+    "cle": "manganese",
+    "libelle": "Manganèse",
+    "intention": "traiter le manganèse, souvent découvert avec le fer",
+    "format": "page solution adossée à la déferrisation : ce qui change par rapport au fer seul",
+    "motif": "\\b(manganese)\\b"
+  },
+  {
+    "cle": "odeur-soufre",
+    "libelle": "Odeur d'œuf pourri / soufre",
+    "intention": "faire disparaître une odeur d'œuf pourri et comprendre d'où elle vient",
+    "format": "page de diagnostic + solution : origine (bactéries, sulfures, chauffe-eau), test simple, traitement",
+    "motif": "\\b(odeur|odeurs|sent|puanteur|oeuf pourri|soufre|sulfure|hydrogene)\\b"
+  },
+  {
+    "cle": "turbidite",
+    "libelle": "Eau trouble, sable, sédiments",
+    "intention": "arrêter le sable et les particules qui arrivent au robinet",
+    "format": "page de diagnostic + prétraitement : origine (forage, pluie, crépine), filtration en cascade",
+    "motif": "\\b(trouble|boueuse|boue|sale|sable|sediment|sediments|particule|particules|chargee|turbidite)\\b"
+  },
+  {
+    "cle": "bacteries-uv",
+    "libelle": "Bactéries et désinfection UV",
+    "intention": "savoir si mon eau est microbiologiquement sûre et comment la désinfecter",
+    "format": "page solution : quand l'UV suffit, ce qu'il exige en amont, entretien de la lampe",
+    "motif": "\\b(bacterie|bacteries|bacteriologique|desinfection|desinfecter|sterilis|sterilisateur|uv)\\b"
+  },
+  {
+    "cle": "ph-corrosion",
+    "libelle": "Eau acide, pH, corrosion des canalisations",
+    "intention": "comprendre pourquoi mes canalisations se percent et corriger le pH",
+    "format": "page de diagnostic + solution : lien pH/corrosion, neutralisation, ordre de traitement",
+    "motif": "\\b(ph|acide|acidite|corrosif|corrosive|corrosion|neutralis|neutraliseur|agressive)\\b"
+  },
+  {
+    "cle": "nitrates-contaminants",
+    "libelle": "Nitrates, ammonium, pollution",
+    "intention": "savoir si mon eau est polluée et ce qui se traite vraiment",
+    "format": "page de référence prudente : seuils réglementaires, qui est concerné, ce qu'un traitement ne règle pas",
+    "motif": "\\b(nitrate|nitrates|ammonium|pollution|polluee|contaminant|contaminants|pesticide|pesticides)\\b"
+  },
+  {
+    "cle": "calcaire-symptome",
+    "libelle": "Eau calcaire, tartre, traces blanches (symptôme)",
+    "intention": "comprendre si mon eau est trop dure et ce que ça me coûte",
+    "format": "page de diagnostic : mesurer sa dureté, ce que le calcaire abîme vraiment, quand agir",
+    "motif": "\\b(calcaire|tartre|dure|dur|durete|traces blanches|blanches)\\b"
+  },
+  {
+    "cle": "adoucisseur",
+    "libelle": "Adoucisseur (solution)",
+    "intention": "choisir, faire installer et entretenir un adoucisseur",
+    "format": "page solution : dimensionnement au volume et à la dureté, coût d'usage (sel), entretien, contre-indications",
+    "motif": "\\b(adouc|adoucisseur|adoucir|adoucissement|resine)\\b"
+  },
+  {
+    "cle": "gout-chlore",
+    "libelle": "Goût et odeur de chlore (eau du réseau)",
+    "intention": "améliorer le goût de l'eau du robinet sans changer d'installation",
+    "format": "page comparative des solutions par budget : carafe, charbon, sous-évier",
+    "motif": "\\b(chlore|chloramine|gout|charbon actif|charbon)\\b"
+  },
+  {
+    "cle": "osmose-boisson",
+    "libelle": "Eau de boisson : osmoseur, sous-évier",
+    "intention": "purifier seulement l'eau que je bois et cuisine",
+    "format": "page solution : ce que l'osmose retire, rejet d'eau, reminéralisation, place sous l'évier",
+    "motif": "\\b(osmose|osmoseur|evier|cuisine|boisson|carafe|purifier|purification)\\b"
+  },
+  {
+    "cle": "local",
+    "libelle": "Requêtes locales",
+    "intention": "trouver quelqu'un près de chez moi qui s'en occupe",
+    "format": "page locale : zone d'intervention, cas traités dans le secteur, particularité de l'eau locale, preuve d'intervention",
+    "motif": "\\b(pertuis|aix|marseille|avignon|manosque|cavaillon|apt|vaucluse|luberon|autour de moi|pres de|proximite)\\b"
+  },
+  {
+    "cle": "equipement-generique",
+    "libelle": "Équipement générique (à arbitrer)",
+    "intention": "intention non tranchée : la requête nomme un équipement sans dire quel problème",
+    "format": "à vérifier en SERP — souvent page pilier ou page catégorie, rarement un article",
+    "motif": "\\b(station|systeme|filtre|filtration|traitement|purifier|installation|equipement)\\b"
+  }
+]

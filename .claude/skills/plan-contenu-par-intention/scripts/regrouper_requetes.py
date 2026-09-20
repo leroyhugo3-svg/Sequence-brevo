@@ -149,9 +149,17 @@ REFUS_A_EXAMINER = (
 )
 
 
+# Les ligatures ne se décomposent pas en NFD : sans cette table, « œuf » perdrait son
+# « œ » et deviendrait « uf », donc « odeur œuf pourri » ne matcherait jamais « oeuf ».
+LIGATURES = {"œ": "oe", "æ": "ae", "ﬁ": "fi", "ß": "ss"}
+
+
 def normaliser(texte: str) -> str:
     """Minuscules, sans accents, sans ponctuation — pour comparer et détecter."""
-    texte = unicodedata.normalize("NFD", texte.strip().lower())
+    texte = texte.strip().lower()
+    for ligature, remplacement in LIGATURES.items():
+        texte = texte.replace(ligature, remplacement)
+    texte = unicodedata.normalize("NFD", texte)
     texte = "".join(c for c in texte if unicodedata.category(c) != "Mn")
     return re.sub(r"[^a-z0-9]+", " ", texte).strip()
 
@@ -174,11 +182,46 @@ def charger(chemin: str) -> list:
     return lignes
 
 
+def charger_familles(chemin: str) -> list:
+    """Remplace les familles par défaut par celles d'un marché donné.
+
+    Les familles par défaut sont calibrées pour un marché d'achat de produit
+    (« quel modèle », « prix », « avis »). Un marché où les gens décrivent d'abord un
+    symptôme — traitement de l'eau, santé, dépannage, diagnostic — a ses propres
+    marqueurs : c'est la couleur de l'eau, l'odeur, le contaminant. Sans famille
+    adaptée, presque tout retombe dans « à rattacher à la main ».
+
+    Format attendu : une liste JSON d'objets {cle, libelle, intention, format, motif},
+    dans l'ordre de priorité (la première famille qui correspond gagne). `motif` est une
+    expression régulière testée sur la requête normalisée : sans accent, en minuscules,
+    sans ponctuation. Écris donc « oeuf » et non « œuf », « manganese » et non
+    « manganèse ».
+    """
+    import json
+
+    with open(chemin, encoding="utf-8") as fichier:
+        brut = json.load(fichier)
+
+    familles = []
+    for i, entree in enumerate(brut, 1):
+        manquants = [c for c in ("cle", "libelle", "intention", "format", "motif") if c not in entree]
+        if manquants:
+            raise SystemExit(f"Famille n°{i} : champ(s) manquant(s) : {', '.join(manquants)}")
+        try:
+            re.compile(entree["motif"])
+        except re.error as erreur:
+            raise SystemExit(f"Famille « {entree['cle']} » : motif invalide ({erreur})")
+        familles.append(
+            (entree["cle"], entree["libelle"], entree["intention"], entree["format"], entree["motif"])
+        )
+    return familles
+
+
 def pluriel(n: int, mot: str = "requête") -> str:
     return f"{n} {mot}{'s' if n > 1 else ''}"
 
-def classer(requete_norm: str):
-    for cle, libelle, intention, format_probable, motif in FAMILLES:
+def classer(requete_norm: str, familles: list):
+    for cle, libelle, intention, format_probable, motif in familles:
         if re.search(motif, requete_norm):
             return cle, libelle, intention, format_probable
     return None
@@ -198,7 +241,15 @@ def main() -> int:
         help='terme du marché à ignorer (ex. "vélo électrique") : il est dans presque '
              "toutes les requêtes et ne distingue aucune intention",
     )
+    parseur.add_argument(
+        "--familles", metavar="FICHIER.JSON",
+        help="familles propres au marché, en remplacement des familles par défaut "
+             "(voir assets/familles-exemple.json). Indispensable sur un marché où les "
+             "gens décrivent un symptôme plutôt qu'un produit.",
+    )
     args = parseur.parse_args()
+
+    familles_actives = charger_familles(args.familles) if args.familles else FAMILLES
 
     brut = charger(args.fichier)
     if not brut:
@@ -223,7 +274,7 @@ def main() -> int:
     for cle_norm, original in uniques.items():
         if re.search(REFUS_A_EXAMINER, cle_norm):
             refus.append(original)
-        resultat = classer(cle_norm)
+        resultat = classer(cle_norm, familles_actives)
         if resultat is None:
             non_classees.append((cle_norm, original))
             continue

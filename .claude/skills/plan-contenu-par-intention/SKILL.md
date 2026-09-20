@@ -121,6 +121,24 @@ publique, dépannage, prix…), en signalant au passage les candidats au refus :
 python3 scripts/regrouper_requetes.py collecte.txt --sujet "terme du marché"
 ```
 
+Les familles par défaut sont celles d'un marché d'**achat de produit** (« quel modèle »,
+« prix », « avis », « prime »). Sur un marché où les gens décrivent d'abord un **symptôme**
+— traitement de l'eau, santé, dépannage, diagnostic —, ces marqueurs ne mordent pas : la
+quasi-totalité des requêtes retombe dans « à rattacher à la main ». Écris alors les familles
+du marché dans un fichier JSON et passe-le au script :
+
+```bash
+python3 scripts/regrouper_requetes.py collecte.txt --sujet "eau" \
+  --familles mon-marche.json
+```
+
+`assets/familles-exemple.json` est un jeu complet pour le traitement de l'eau : il montre la
+structure attendue (`cle`, `libelle`, `intention`, `format`, `motif`, dans l'ordre de
+priorité) et surtout le découpage qui compte sur ce genre de marché — **symptôme et solution
+sont deux familles distinctes** pour un même contaminant, parce que ce sont deux moments du
+parcours. Les `motif` sont des expressions régulières testées sur la requête normalisée :
+minuscules, sans accent ni ponctuation, ligatures développées (écris `oeuf`, pas `œuf`).
+
 Ce sont des **candidats**, pas des familles : le script regroupe sur les mots, la méthode
 regroupe sur les intentions. Deux requêtes sans un mot commun peuvent relever de la même
 intention, et deux requêtes quasi identiques peuvent relever de deux intentions
@@ -219,4 +237,5 @@ La valeur de ce plan tient entièrement à ce que les données viennent du terra
 | `references/collecte-sources-gratuites.md` | Phase 2 — protocole détaillé et 20 gabarits d'amorces |
 | `references/formats-de-page.md` | Phase 4 — quel format pour quelle intention |
 | `assets/template-plan-de-contenu.md` | Phase 5 / livrable — structure à remplir |
+| `assets/familles-exemple.json` | Phase 3 — modèle de familles propres à un marché, à passer au script |
 | `scripts/regrouper_requetes.py` | Phase 3 — dégrossir une collecte brute volumineuse |
