@@ -1,0 +1,278 @@
+# Brouillon de familles — 200 requêtes uniques sur 200 lignes lues
+# Terme de marché ignoré dans le regroupement : eau
+#
+# Regroupement LEXICAL, pas intentionnel. À trancher à la main, puis à vérifier
+# contre la SERP de la requête la plus représentative de chaque famille.
+# Une famille retenue = UNE page (voir SKILL.md, phases 3 et 4).
+
+## Eau trouble, sable, sédiments — 23 requêtes
+   Intention (à reformuler) : arrêter le sable et les particules qui arrivent au robinet
+   Format probable          : page de diagnostic + prétraitement : origine (forage, pluie, crépine), filtration en cascade
+   - eau avec sable
+   - eau boueuse
+   - eau boueuse forage
+   - eau boueuse puits
+   - eau chargée particules
+   - eau sale forage
+   - eau sale puits
+   - eau trouble forage
+   - eau trouble puits
+   - eau trouble robinet
+   - filtration eau trouble
+   - filtration sédiments eau
+   - filtre eau trouble
+   - filtre sable eau
+   - filtre sable puits
+   - filtre sédiments eau
+   - particules dans eau
+   - particules eau puits
+   - sable dans eau
+   - sable dans eau de forage
+   - sable dans eau de puits
+   - sédiments eau
+   - sédiments eau puits
+
+## Odeur d'œuf pourri / soufre — 21 requêtes
+   Intention (à reformuler) : faire disparaître une odeur d'œuf pourri et comprendre d'où elle vient
+   Format probable          : page de diagnostic + solution : origine (bactéries, sulfures, chauffe-eau), test simple, traitement
+   - eau forage odeur œuf pourri
+   - eau forage qui sent mauvais
+   - eau odeur œuf pourri
+   - eau puits odeur œuf pourri
+   - eau puits qui sent mauvais
+   - eau qui sent mauvais
+   - eau robinet odeur chlore
+   - eau robinet qui sent mauvais
+   - enlever odeur eau
+   - enlever odeur eau puits
+   - filtration odeur eau
+   - filtre odeur eau
+   - mauvaise odeur eau
+   - odeur eau forage
+   - odeur eau puits
+   - odeur eau robinet
+   - odeur soufre eau
+   - soufre dans eau
+   - sulfure hydrogène eau
+   - traitement odeur eau
+   - traitement soufre eau
+
+## Équipement générique (à arbitrer) — 19 requêtes
+   Intention (à reformuler) : intention non tranchée : la requête nomme un équipement sans dire quel problème
+   Format probable          : à vérifier en SERP — souvent page pilier ou page catégorie, rarement un article
+   - filtration eau de forage
+   - filtration eau de puits
+   - filtration eau de puits maison
+   - filtration eau forage maison
+   - filtre eau de forage
+   - filtre eau de puits
+   - station filtration eau de puits
+   - station traitement eau de puits
+   - système filtration eau de puits
+   - système traitement eau de puits
+   - traitement eau de forage
+   - traitement eau de puits
+   - traitement eau de puits maison
+   - traitement eau de puits particulier
+   - traitement eau forage domestique
+   - traitement eau forage maison
+   - traitement eau forage privé
+   - traitement eau puits domestique
+   - traitement eau puits privé
+
+## Eau calcaire, tartre, traces blanches (symptôme) — 19 requêtes
+   Intention (à reformuler) : comprendre si mon eau est trop dure et ce que ça me coûte
+   Format probable          : page de diagnostic : mesurer sa dureté, ce que le calcaire abîme vraiment, quand agir
+   - calcaire dans eau
+   - calcaire eau robinet
+   - eau calcaire
+   - eau calcaire Pertuis
+   - eau dure Pertuis
+   - eau dure traitement
+   - eau trop calcaire
+   - eau très calcaire
+   - enlever calcaire eau
+   - filtration eau calcaire
+   - filtrer eau calcaire
+   - problème eau calcaire
+   - problème eau dure
+   - réduire calcaire eau
+   - solution eau calcaire
+   - tartre eau robinet
+   - traitement eau calcaire
+   - traitement eau calcaire Pertuis
+   - traitement eau dure
+
+## Déferrisation (solution) — 17 requêtes
+   Intention (à reformuler) : choisir et faire installer un traitement du fer
+   Format probable          : page solution : principe, dimensionnement, coût, entretien, limites
+   - déferrisation eau
+   - déferriseur eau
+   - déferriseur eau puits
+   - déferriseur manganèse
+   - enlever fer eau
+   - enlever fer eau puits
+   - fer dans eau
+   - fer dans eau de forage
+   - fer dans eau de puits
+   - filtration fer eau
+   - filtre anti fer eau
+   - filtre eau fer manganèse
+   - filtre fer eau puits
+   - problème fer eau puits
+   - traitement fer eau
+   - traitement fer eau de forage
+   - traitement fer eau de puits
+
+## Eau jaune, orange, taches de rouille (symptôme) — 16 requêtes
+   Intention (à reformuler) : comprendre pourquoi mon eau est colorée et tache, et si c'est dangereux
+   Format probable          : page de diagnostic : symptôme → cause probable → vérification → orientation
+   - eau couleur rouille
+   - eau ferrugineuse
+   - eau jaune forage
+   - eau jaune puits
+   - eau jaune robinet
+   - eau marron après pluie
+   - eau marron robinet
+   - eau orange robinet
+   - eau rouille robinet
+   - linge jaune eau
+   - linge orange eau
+   - taches orange eau
+   - taches rouille eau
+   - traces blanches eau robinet
+   - traces orange sanitaires
+   - traces rouille sanitaires
+
+## Eau de boisson : osmoseur, sous-évier — 14 requêtes
+   Intention (à reformuler) : purifier seulement l'eau que je bois et cuisine
+   Format probable          : page solution : ce que l'osmose retire, rejet d'eau, reminéralisation, place sous l'évier
+   - filtration eau cuisine
+   - filtration sous évier
+   - filtre eau cuisine
+   - filtre sous évier
+   - osmose inverse
+   - osmose inverse maison
+   - osmoseur eau
+   - osmoseur eau du robinet
+   - osmoseur maison
+   - osmoseur sous évier
+   - purifier eau de forage
+   - purifier eau de puits
+   - purifier eau maison
+   - purifier eau robinet
+
+## Eau acide, pH, corrosion des canalisations — 12 requêtes
+   Intention (à reformuler) : comprendre pourquoi mes canalisations se percent et corriger le pH
+   Format probable          : page de diagnostic + solution : lien pH/corrosion, neutralisation, ordre de traitement
+   - corrosion canalisation eau
+   - eau acide forage
+   - eau acide puits
+   - eau corrosive canalisation
+   - eau trop acide
+   - neutraliser eau acide
+   - neutraliseur eau
+   - neutraliseur pH eau
+   - pH eau de puits
+   - pH eau forage
+   - traitement eau acide
+   - traitement pH eau
+
+## Bactéries et désinfection UV — 11 requêtes
+   Intention (à reformuler) : savoir si mon eau est microbiologiquement sûre et comment la désinfecter
+   Format probable          : page solution : quand l'UV suffit, ce qu'il exige en amont, entretien de la lampe
+   - UV eau de forage
+   - UV eau de puits
+   - bactéries eau de forage
+   - bactéries eau de puits
+   - désinfection eau de forage
+   - désinfection eau de puits
+   - filtre UV eau
+   - stérilisateur eau UV
+   - traitement UV eau
+   - traitement bactéries eau
+   - traitement bactériologique eau
+
+## Goût et odeur de chlore (eau du réseau) — 10 requêtes
+   Intention (à reformuler) : améliorer le goût de l'eau du robinet sans changer d'installation
+   Format probable          : page comparative des solutions par budget : carafe, charbon, sous-évier
+   - améliorer goût eau robinet
+   - charbon actif eau robinet
+   - eau du robinet goût chlore
+   - enlever chlore eau
+   - filtration charbon actif maison
+   - filtration chlore eau
+   - filtre anti chlore
+   - filtre charbon actif eau
+   - mauvais goût eau
+   - mauvais goût eau robinet
+
+## Nitrates, ammonium, pollution — 10 requêtes
+   Intention (à reformuler) : savoir si mon eau est polluée et ce qui se traite vraiment
+   Format probable          : page de référence prudente : seuils réglementaires, qui est concerné, ce qu'un traitement ne règle pas
+   - ammonium eau forage
+   - ammonium eau puits
+   - contaminants eau puits
+   - enlever nitrates eau
+   - filtre nitrates eau
+   - nitrates eau de puits
+   - nitrates eau forage
+   - pollution eau de puits
+   - traitement ammonium eau
+   - traitement nitrates eau
+
+## Manganèse — 9 requêtes
+   Intention (à reformuler) : traiter le manganèse, souvent découvert avec le fer
+   Format probable          : page solution adossée à la déferrisation : ce qui change par rapport au fer seul
+   - enlever manganèse eau
+   - filtre manganèse eau
+   - filtre manganèse puits
+   - manganèse dans eau
+   - manganèse eau de forage
+   - manganèse eau de puits
+   - problème manganèse eau
+   - traitement manganèse eau
+   - traitement manganèse eau puits
+
+## Rendre une eau de puits potable / conformité — 8 requêtes
+   Intention (à reformuler) : savoir ce qu'il faut faire pour que l'eau de mon puits soit buvable, et ce que la loi exige
+   Format probable          : page de référence datée : étapes, obligations déclaratives, source officielle
+   - filtration eau potable maison
+   - filtre eau potable maison
+   - potabilisation UV eau
+   - potabilisation eau de forage
+   - potabilisation eau de puits
+   - rendre eau de forage potable
+   - rendre eau de puits potable
+   - système filtration eau potable
+
+## Faire analyser son eau — 5 requêtes
+   Intention (à reformuler) : savoir ce que contient mon eau avant de choisir quoi que ce soit
+   Format probable          : guide de décision : quels paramètres, où faire analyser, combien ça coûte, comment lire le rapport
+   - analyse eau de forage
+   - analyse eau de puits
+   - analyse qualité eau de puits
+   - test eau de puits
+   - test qualité eau de puits
+
+## Adoucisseur (solution) — 4 requêtes
+   Intention (à reformuler) : choisir, faire installer et entretenir un adoucisseur
+   Format probable          : page solution : dimensionnement au volume et à la dureté, coût d'usage (sel), entretien, contre-indications
+   - adoucir eau de forage
+   - adoucir eau de puits
+   - adoucir eau maison
+   - adoucisseur Pertuis
+
+## Requêtes locales — 1 requête
+   Intention (à reformuler) : trouver quelqu'un près de chez moi qui s'en occupe
+   Format probable          : page locale : zone d'intervention, cas traités dans le secteur, particularité de l'eau locale, preuve d'intervention
+   - filtration eau Pertuis
+
+## À rattacher à la main — 1 requête
+# Aucun marqueur d'intention connu. Les requêtes isolées sont souvent les
+# plus intéressantes : ce sont elles qui portent les angles que personne
+# n'a pris. Le mot nu du marché arrive souvent ici — et il est en général
+# navigationnel ou local, donc une mauvaise base de page.
+   [puits]
+   - stérilisation eau puits
+
