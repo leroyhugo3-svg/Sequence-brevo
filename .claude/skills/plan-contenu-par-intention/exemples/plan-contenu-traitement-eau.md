@@ -27,17 +27,55 @@
 
 ---
 
-## 1. Fiche marché — à compléter par tes réponses
+## 1. L'offre et la fiche marché
 
 | | |
 |---|---|
-| **Ce qu'on vend** | ⚠️ `[À CONFIRMER]` — installation et entretien de stations de traitement, adoucisseurs, osmoseurs chez le particulier. Gamme de prix inconnue. |
-| **À qui** | Déduit de la liste de mots clés, voir section 2 : **trois publics distincts**, pas un. |
-| **Succès à 6 mois** | ⚠️ `[À CONFIRMER]` — hypothèse retenue : des demandes de devis qualifiées venues de Google, dans une zone d'intervention autour de Pertuis (84). |
+| **Ce qu'on vend** | **Un pack d'installation complet**, en deux déclinaisons : *version réseau* (adoucisseur + filtres + osmoseur) et *version puits/forage* (la même chose + déferriseur + désinfection UV). Éléments disponibles séparément, mais le pack est mis en avant. |
+| **Prix** | **Moins de 3 000 €, pose comprise.** C'est l'information la plus importante de tout ce document — voir §1.1. |
+| **À qui** | Trois publics, tous servis par une déclinaison du pack — voir §2. |
+| **Succès à 6 mois** | Des demandes de devis qualifiées venues de Google, dans la zone d'intervention autour de Pertuis (84). ⚠️ `[À CONFIRMER]` |
+| **Modèle de référence** | Raleigh Water Pros : pack unique, prix affiché, pose incluse. Le calque fonctionne, à une condition près — §1.2. |
 
-La gamme de prix et la zone d'intervention réelle changent l'arbitrage de plusieurs pages
-ci-dessous (notamment §4.11, §4.17 et les refus §6). Le plan est construit sous ces
-hypothèses, explicitement marquées.
+### 1.1 — Ton prix est ton arme, et le plan doit être construit autour
+
+Repères de marché relevés le 2026-09-20 sur les guides de prix français :
+
+| Élément | Prix de marché publié, posé |
+|---|---|
+| Adoucisseur seul | 800 à 3 500 € (moyenne ~1 500 € ; 1 800 à 3 000 € pour 40-60 L de résine, maison de 5 personnes) |
+| Déferriseur seul | 700 à 1 800 € |
+| Station UV seule | 950 à plus de 2 000 € |
+| Osmoseur seul | 150 à 550 € |
+| **Somme des quatre, au prix du marché** | **2 600 à 7 850 €** |
+| Chaîne complète annoncée par le marché (sédiments + charbon + déferrisation + UV + osmoseur) | 2 000 à 4 000 € |
+| Potabilisation « professionnelle » | 2 000 à 8 000 €, moyenne ~5 000 € |
+
+**Ton pack complet, version puits, est donc à ou sous le plancher de la somme de ses
+parties.** Et la version réseau est au prix d'un adoucisseur seul de marque.
+
+Conséquence sur le plan de contenu, et c'est un renversement complet : **tout ce marché
+cache ses prix derrière « devis gratuit »**. Les guides de prix qui se positionnent sur ces
+requêtes sont écrits par des comparateurs, pas par des installateurs. Tu peux afficher ton
+prix. C'est une différenciation que personne dans ta SERP locale ne peut copier sans
+casser sa propre marge.
+
+Donc : **le prix affiché devient l'appel à l'action de chaque page du plan.** Chaque page
+symptôme ne se termine pas par « demandez un devis » mais par « voici ce que ça coûte de le
+régler définitivement, pose comprise ». C'est ce qui transforme 19 pages d'information en
+19 portes d'entrée vers une seule offre.
+
+### 1.2 — Le risque du prix bas, et la page qui le désamorce
+
+À ce niveau de prix, l'objection n'est plus « c'est trop cher », c'est **« qu'est-ce qui
+manque ? »**. Un pack complet avec déferriseur et UV sous 3 000 € est en dessous de ce que
+la plupart des concurrents facturent pour un seul élément. Un acheteur qui compare va se
+demander où est le piège : marque inconnue, débit insuffisant, garantie courte, entretien
+facturé à part, pose bâclée.
+
+Cette objection ne se traite pas par un argumentaire commercial, elle se traite par une
+page (§4A.4). Si tu affiches le prix sans expliquer *pourquoi* tu peux le faire, le prix
+devient un signal de méfiance au lieu d'un avantage.
 
 ---
 
@@ -53,11 +91,26 @@ parle à personne.
 | **B. Abonné au réseau, eau trop dure** | ~24 lignes | Pavillon en zone calcaire. Tartre, traces blanches, électroménager qui meurt. Il sait déjà ce qu'il veut. | Un adoucisseur, posé |
 | **C. Abonné au réseau, n'aime pas le goût** | ~21 lignes | Souvent locataire ou petit budget. Goût de chlore. Il veut boire de l'eau du robinet sans arrière-goût. | Une carafe, un charbon actif, au mieux un osmoseur sous évier |
 
-**Conséquence sur l'architecture.** Public A est le cœur : panier élevé, problème urgent,
-concurrence locale faible. Public B est le volume commercial classique et le plus
-concurrentiel. Public C convertit mal en installation — c'est un public d'audience, pas de
-devis. Ne fais pas de C le point d'entrée du site : il tirera ton audience vers des gens qui
-n'achètent pas d'installation.
+**Conséquence sur l'architecture — révisée après avoir appris ce que tu vends.** Avec un
+pack décliné en version réseau et version puits, les trois publics sont vendables, et mon
+arbitrage initial était faux sur deux points :
+
+- **Public C n'est plus un public d'audience.** L'osmoseur est dans le pack, et le pack est
+  sous 3 000 €. La personne qui cherche « goût de chlore » est un prospect osmoseur, donc un
+  prospect pack. À ce prix-là, l'écart entre « je voulais une carafe » et « j'ai fait poser
+  une installation » est franchissable. §4.15 et §4.16 remontent en priorité.
+- **Public B est ton public le plus rentable**, pas le plus concurrentiel à fuir. Sur une
+  eau de ville dure, ton pack complet coûte le prix d'un adoucisseur seul de marque. C'est
+  une comparaison que tu gagnes de façon mécanique, sans avoir à être meilleur en SEO que
+  les marques nationales : il suffit que le prospect voie les deux prix.
+- **Public A reste le plus gros volume de demande** (~155 lignes) et le panier le plus
+  naturel pour la version puits. Mais il exige la version avec déferriseur et UV : ne le
+  fais jamais atterrir sur la page du pack réseau, il conclurait que tu ne sais pas traiter
+  son eau.
+
+**Donc deux pages pack, pas une** (§4A.1 et §4A.2), et un aiguillage explicite dès la page
+d'accueil : « vous êtes sur le réseau » / « vous avez un puits ou un forage ». C'est la
+première décision d'architecture du site.
 
 Note aussi : ta liste vient d'une transposition d'un acteur américain. Le calque technique
 tient (fer, manganèse, soufre, turbidité, pH, bactéries : ce sont les mêmes paramètres). Ce
@@ -109,7 +162,80 @@ générer des devis. Les trous sont traités en §5.
 
 ---
 
-## 4. Le plan : 19 pages, 19 intentions
+---
+
+## 4A. Le noyau de conversion : 5 pages qui vendent
+
+Ces pages n'étaient pas dans la première version du plan, parce que je ne savais pas que tu
+vendais un pack. Ce sont désormais **les pages les plus importantes du site**. Les 19 pages
+d'acquisition (§4B) n'existent que pour amener du monde ici.
+
+### 4A.1 — Le pack, version réseau ★ PAGE LA PLUS IMPORTANTE DU SITE
+
+| | |
+|---|---|
+| **Intention** | comprendre exactement ce que j'achète, ce que ça coûte, et ce qui se passe après |
+| **Famille Google** | Faire |
+| **Format** | Page d'offre. Ce n'est pas un article : c'est ce qui est inclus, le prix, le déroulé de la pose, la garantie, l'entretien, et la preuve. |
+| **Ce qu'elle doit contenir** | Les trois éléments et le rôle de chacun · le prix, pose comprise, affiché · ce qui n'est **pas** inclus (et c'est ce qui te rend crédible) · le débit et la capacité, donc pour quelle taille de maison · la durée de la pose · la garantie et sa durée · le coût d'entretien annuel réel · 2 ou 3 cas posés dans le secteur, avec photos |
+| **Angle non pris** | Un prix affiché. Dans cette SERP, personne ne le fait. |
+| **Titre** | « Pack traitement d'eau complet posé : adoucisseur, filtration et osmoseur, moins de 3 000 € » |
+
+### 4A.2 — Le pack, version puits et forage
+
+| | |
+|---|---|
+| **Intention** | savoir si mon eau de puits peut devenir potable, avec quoi, et à quel prix |
+| **Famille Google** | Faire |
+| **Format** | Même structure que §4A.1, avec les deux étages supplémentaires (déferrisation, UV) et **une condition préalable affichée en haut de page : l'analyse d'eau** (§4.1). |
+| **Ce qui change** | La version puits ne peut pas être vendue sans analyse — et le dire franchement en haut de la page d'offre est un gage de sérieux, pas un frein. Prévoir la mention : « selon les résultats, certains paramètres peuvent demander un traitement complémentaire hors pack ». |
+| **Angle non pris** | Publier un prix sur une **station complète pour eau de puits** est encore plus rare que sur un adoucisseur. Le marché annonce 2 000 à 4 000 € pour cette chaîne, et jusqu'à 5 000 € en moyenne pour une « potabilisation professionnelle ». Tu es dessous. |
+| **Titre** | « Rendre l'eau de son puits potable : le pack complet posé, déferriseur et UV inclus » |
+
+### 4A.3 — Pourquoi les trois ensemble (la page qui sauve le pack)
+
+| | |
+|---|---|
+| **Intention** | comprendre si j'ai vraiment besoin de tout, ou si l'adoucisseur suffirait |
+| **Famille Google** | Savoir |
+| **Format** | Page d'explication technique, structurée par la division du travail entre les trois appareils. |
+| **Pourquoi elle est indispensable** | C'est **l'objection n°1** de toute vente en pack : « je ne veux que l'adoucisseur ». Comme tu vends aussi les éléments séparément, tu ne peux pas y répondre par « c'est le pack ou rien ». Il faut y répondre par la technique. |
+| **L'argument, qui a le mérite d'être vrai** | Les filtres protègent l'adoucisseur (une résine encrassée par des sédiments ou du fer se colmate et meurt prématurément). L'adoucisseur protège l'installation et l'électroménager du tartre. **Et l'osmoseur traite l'eau de boisson — parce qu'un adoucisseur ne rend pas l'eau meilleure à boire : il échange le calcium contre du sodium.** Beaucoup de gens croient qu'un adoucisseur purifie l'eau. Non. Les trois ne sont pas redondants, ils ne font pas le même métier. |
+| **Angle non pris** | Dire qu'un adoucisseur seul ne suffit pas **à boire**, quand tout le marché vend des adoucisseurs seuls. C'est l'argument qui justifie le pack sans mentir. |
+| **Titre** | « Adoucisseur, filtres, osmoseur : pourquoi les trois ne font pas le même travail » |
+
+### 4A.4 — Pourquoi c'est moins cher qu'ailleurs ★ OBLIGATOIRE À CE PRIX
+
+| | |
+|---|---|
+| **Intention** | vérifier qu'il n'y a pas de piège avant d'appeler |
+| **Famille Google** | Savoir |
+| **Format** | Page de transparence : le comparatif chiffré, puis les raisons. |
+| **Pourquoi elle est obligatoire** | Voir §1.2. À moins de 3 000 € pour un pack complet, le prix devient suspect s'il n'est pas expliqué. Non expliqué, il coûte des ventes au lieu d'en gagner. |
+| **Ce qu'elle doit contenir** | Le tableau de §1.1 : prix de marché de chaque élément séparé, leur somme, ton prix · **les raisons réelles** de l'écart (à toi de me les donner : pas de commercial à la commission ? pose en interne sans sous-traitance ? une seule marque en volume ? pas de showroom ?) · et **ce que tu ne fais pas** pour ce prix |
+| **Angle non pris** | Le marché entier justifie ses prix hauts. Personne ne justifie un prix bas. |
+| **Titre** | « Pourquoi notre pack complet coûte le prix d'un adoucisseur seul » |
+| **Bloqué par** | Les raisons réelles de ton écart de prix. Je ne les invente pas : inventées, elles sonneraient faux et cette page se retournerait contre toi. |
+
+### 4A.5 — Le diagnostic à domicile (la marche d'entrée)
+
+| | |
+|---|---|
+| **Intention** | savoir ce qu'il me faut sans m'engager |
+| **Famille Google** | Faire |
+| **Format** | Page de service courte et très concrète : ce qui est mesuré, combien de temps ça prend, ce que je reçois à la fin, ce que ça coûte (gratuit ou non — à confirmer). |
+| **Rôle dans le plan** | C'est la conversion intermédiaire de tout le trafic symptôme : quelqu'un qui arrive sur « eau jaune » ou « odeur d'œuf pourri » n'achète pas un pack dans la minute, mais il accepte une mesure à domicile. C'est la marche entre §4B et §4A. |
+| **Angle non pris** | Annoncer ce qui est mesuré et **ce que la visite conclut parfois** : que rien n'est nécessaire. Voir l'angle du chauffe-eau en §4.6 — c'est la même honnêteté, et c'est ce qui fait décrocher le téléphone. |
+| **Titre** | « Diagnostic de votre eau à domicile : ce qu'on mesure et ce que vous recevez » |
+
+---
+
+## 4B. Les 19 pages d'acquisition
+
+Elles servent le trafic de recherche et convergent toutes vers §4A. **Règle pour toutes :
+l'appel à l'action est le prix du pack, pas un formulaire de devis** — voir §1.1.
+
+### Le plan : 19 intentions, une page chacune
 
 Priorité 1 = à écrire d'abord. La colonne « preuve SERP » dit ce qui a été observé le
 2026-09-20 et justifie le format.
@@ -382,6 +508,7 @@ de lignes utiles sur deux cents.
 | « pollution eau de puits », « contaminants eau puits » | **SERP verrouillée** par l'institutionnel (ARS, services de l'État) + sujet santé. | Traité en page prudente §4.10, sans objectif de classement. |
 | Dosages de chloration de choc, procédures de désinfection maison | **Risque.** Erreur de dosage = risque sanitaire réel sur une page qui porte ton nom. | Renvoi à la procédure officielle. Jamais de dosage publié. |
 | Promesses de résultat sur nitrates et pesticides | **Risque.** Sujet santé, affirmation invérifiable. | Dire ce qui ne se traite pas, plutôt que promettre. |
+| Une page d'offre unique qui mélange réseau et puits | **Mauvais public, les deux à la fois.** Un propriétaire de puits qui lit une offre « adoucisseur + filtres + osmoseur » conclut que tu ne traites pas son fer. Un abonné au réseau qui lit une offre avec déferriseur et UV se croit hors sujet et trouve le prix cher. | Deux pages pack (§4A.1, §4A.2) et un aiguillage dès l'accueil. |
 | 50 pages-villes dupliquées sur le modèle « traitement eau + commune » | **Hors mission et contre-productif.** Tu as un skill rank & rent qui sait faire ça ; ce marché-ci ne s'y prête pas : le prospect cherche quelqu'un qui **vient chez lui** et qui connaît **son** eau. Cinquante pages vides diluent le signal et ressemblent exactement à « beaucoup de contenu sur beaucoup de sujets en espérant qu'une partie performe ». | Une page locale substantielle (§4.17), plus 3 à 5 pages de commune **seulement si** chacune porte une donnée propre (dureté relevée, cas traité sur place, particularité de nappe). Aucune sinon. |
 
 ---
@@ -390,20 +517,25 @@ de lignes utiles sur deux cents.
 
 | Vague | Pages | Pourquoi dans cet ordre |
 |---|---|---|
-| **1 — Fondations** | §4.1 analyse · §4.2 déclaration · §4.17 locale | Le point d'entrée obligatoire du parcours, le terrain libre le plus défendable, et la page qui convertit. Aucune concurrence locale sur les trois. |
-| **2 — Symptômes** | §4.4 eau jaune · §4.6 œuf pourri · §4.18 taches extérieures · §4.7 trouble/sable | Le gros de la demande réelle (60 lignes), et des SERP tenues par du contenu canadien, des vendeurs de produits de nettoyage ou des dépanneurs qui ne traitent pas le puits. C'est là que l'écart se creuse. §4.18 est la meilleure surprise de la relance : symptôme très visible, forte intention, zéro installateur en face. |
-| **3 — Solutions** | §4.5 déferrisation · §4.8 UV · §4.3 pilier | Elles ne servent qu'une fois les symptômes captés : ce sont les pages de conversion du parcours A. |
-| **4 — Bas de parcours** | §4.11 prix · §4.12 entretien | À écrire dès que tu me donnes tes fourchettes. Ce sont les pages les plus proches du devis. |
-| **5 — Public B** | §4.13 dureté · §4.14 adoucisseur | Marché plus concurrentiel : n'y va qu'avec l'actif local (dureté par commune). |
-| **6 — Reste** | §4.9 pH · §4.10 nitrates · §4.15 chlore · §4.16 osmoseur | Complétude et audience. |
-| **Hors vague** | §4.19 PFAS | À écrire **quand tu as le chiffre de ton réseau en main** (§4.13). Seule famille où la concurrence est déjà en place, mais sans donnée locale — c'est par là qu'on entre. |
+| **0 — Le noyau, avant tout le reste** | §4A.1 pack réseau · §4A.2 pack puits · §4A.4 pourquoi moins cher · §4A.3 les trois ensemble · §4A.5 diagnostic | Sans elles, tout le trafic que les autres pages produiront n'a nulle part où atterrir. Écrire une page symptôme avant la page d'offre, c'est remplir un seau percé. §4A.4 est dans cette vague et pas plus tard : à ton prix, elle conditionne la crédibilité des deux pages pack. |
+| **1 — Fondations** | §4.1 analyse · §4.2 déclaration · §4.17 locale | Le point d'entrée obligatoire du parcours puits, le terrain réglementaire libre, et la page qui convertit en local. Aucune concurrence locale sur les trois. |
+| **2 — Prix et preuve** | §4.11 prix · §4.12 entretien | Promues : avec un prix affiché, ces deux pages ne sont plus du bas de parcours, elles sont le prolongement direct de l'offre. §4.11 devient le comparatif « élément seul vs pack ». |
+| **3 — Symptômes** | §4.4 eau jaune · §4.6 œuf pourri · §4.18 taches extérieures · §4.7 trouble/sable | Le gros de la demande réelle (60 lignes), SERP tenues par du contenu canadien, des vendeurs de nettoyants ou des dépanneurs qui ne traitent pas le puits. Chacune renvoie à §4A.5 puis §4A.2. |
+| **4 — Public B, le plus rentable** | §4.13 dureté par commune · §4.14 adoucisseur | Remontées : c'est là que la comparaison de prix est la plus mécanique. §4.14 doit contenir le comparatif « adoucisseur seul de marque vs pack complet », c'est le meilleur argument du site. |
+| **5 — Public C, requalifié** | §4.15 chlore · §4.16 osmoseur | Remontées aussi : l'osmoseur est dans le pack et le pack est accessible. Ces pages ne sont plus de la simple audience. |
+| **6 — Solutions techniques** | §4.5 déferrisation · §4.8 UV · §4.3 pilier · §4.9 pH | Pages de réassurance technique pour qui compare. |
+| **7 — Complétude** | §4.10 nitrates · §4.19 PFAS | §4.19 quand tu as le chiffre de ton réseau (§4.13). |
 
-**19 pages, pas 200.** Et aucune ne se marche dessus : à chaque fois qu'une famille pouvait
-donner deux pages (fer symptôme/solution, calcaire symptôme/solution), la séparation est
-justifiée par un **moment du parcours différent** ; à chaque fois qu'elle ne l'était pas
-(fer et manganèse, sable et sédiments et particules), les pages ont été fusionnées.
+**24 pages en tout : 5 de conversion, 19 d'acquisition.** Et aucune ne se marche dessus : à
+chaque fois qu'une famille pouvait donner deux pages (fer symptôme/solution, calcaire
+symptôme/solution), la séparation est justifiée par un **moment du parcours différent** ; à
+chaque fois qu'elle ne l'était pas (fer et manganèse, sable et sédiments et particules), les
+pages ont été fusionnées.
 
----
+**Un maillage, pas une pile.** Chaque page d'acquisition finit sur le même chemin :
+symptôme → §4A.5 diagnostic → §4A.1 ou §4A.2 selon réseau ou puits. Si une page ne sait pas
+vers laquelle des deux pages pack elle envoie, c'est qu'elle ne sait pas à quel public elle
+parle : reprends-la.
 
 ## 8. Contrôle final
 
@@ -412,7 +544,10 @@ justifiée par un **moment du parcours différent** ; à chaque fois qu'elle ne 
 - [x] Une famille = une page ; les séparations sont justifiées par le moment du parcours
 - [x] Les refus sont explicites et motivés
 - [x] Aucune donnée de collecte inventée ; les sources manquantes sont nommées
-- [ ] ⚠️ Fiche marché incomplète (gamme de prix, zone, objectif) — voir questions ci-dessous
+- [x] Offre et prix connus : pack en deux déclinaisons, moins de 3 000 € posé
+- [x] Le plan converge vers une offre unique (§4A) au lieu de former un catalogue
+- [ ] ⚠️ Raisons réelles de l'écart de prix manquantes — bloque §4A.4, la page la plus sensible
+- [ ] ⚠️ Zone d'intervention et objectif chiffré à confirmer
 - [ ] ⚠️ Sources 1, 2, 3, 5, 6 non collectées — voir §9
 - [ ] ⚠️ SERP locale à revérifier géolocalisée depuis Pertuis
 - [ ] ⚠️ Personnage non établi : le site n'a pas été lu (URL non fournie)
@@ -453,13 +588,18 @@ questions réelles par page, et les angles de la source forums.
 
 ---
 
-## 10. Les trois questions qui débloquent le reste
+## 10. Ce qu'il me manque encore
 
-1. **L'URL de ton site** — pour lire ce que tu racontes déjà, à qui, et sur quel ton. Le plan
-   ci-dessus est écrit sans personnage : c'est sa principale faiblesse.
-2. **Tes fourchettes de prix réelles** — installation simple, station complète, adoucisseur,
-   et coût d'entretien annuel. Sans elles, §4.11 et §4.12 ne peuvent pas s'écrire, et ce
-   sont les deux pages les plus proches du devis.
-3. **Ta zone d'intervention réelle, commune par commune** — pour §4.17, et pour décider s'il
-   y a 1, 3 ou 5 pages locales à écrire. Et si tu vends aussi en ligne sans déplacement,
-   dis-le : ça change tout l'arbitrage entre les publics A, B et C.
+1. **Pourquoi ton pack coûte moins cher.** Les raisons réelles : pas de commercial à la
+   commission ? pose en interne ? une marque achetée en volume ? pas de showroom à financer ?
+   C'est ce qui bloque §4A.4, et §4A.4 conditionne la crédibilité des deux pages pack. Je ne
+   l'invente pas : une justification inventée sonnerait faux exactement là où il faut être
+   crédible.
+2. **Ce qui est inclus et ce qui ne l'est pas**, précisément : débit, capacité de résine,
+   marque, durée de garantie, entretien la première année, et ce qui se facture en plus
+   (percement, évacuation, réducteur de pression — le marché annonce 700 à 1 200 € de
+   surcoût quand l'installation demande des modifications).
+3. **L'URL du site** — pour lire ce que tu racontes déjà et sur quel ton. Le plan reste écrit
+   sans personnage : c'est sa dernière faiblesse.
+4. **Ta zone d'intervention commune par commune**, pour §4.17 et pour décider s'il y a 1, 3
+   ou 5 pages locales.
