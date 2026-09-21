@@ -162,6 +162,22 @@
    - purifier eau maison
    - purifier eau robinet
 
+## Bactéries et désinfection UV — 12 requêtes
+   Intention (à reformuler) : savoir si mon eau est microbiologiquement sûre et comment la désinfecter
+   Format probable          : page solution : quand l'UV suffit, ce qu'il exige en amont, entretien de la lampe
+   - UV eau de forage
+   - UV eau de puits
+   - bactéries eau de forage
+   - bactéries eau de puits
+   - désinfection eau de forage
+   - désinfection eau de puits
+   - filtre UV eau
+   - stérilisateur eau UV
+   - stérilisation eau puits
+   - traitement UV eau
+   - traitement bactéries eau
+   - traitement bactériologique eau
+
 ## Eau acide, pH, corrosion des canalisations — 12 requêtes
    Intention (à reformuler) : comprendre pourquoi mes canalisations se percent et corriger le pH
    Format probable          : page de diagnostic + solution : lien pH/corrosion, neutralisation, ordre de traitement
@@ -177,21 +193,6 @@
    - pH eau forage
    - traitement eau acide
    - traitement pH eau
-
-## Bactéries et désinfection UV — 11 requêtes
-   Intention (à reformuler) : savoir si mon eau est microbiologiquement sûre et comment la désinfecter
-   Format probable          : page solution : quand l'UV suffit, ce qu'il exige en amont, entretien de la lampe
-   - UV eau de forage
-   - UV eau de puits
-   - bactéries eau de forage
-   - bactéries eau de puits
-   - désinfection eau de forage
-   - désinfection eau de puits
-   - filtre UV eau
-   - stérilisateur eau UV
-   - traitement UV eau
-   - traitement bactéries eau
-   - traitement bactériologique eau
 
 ## Goût et odeur de chlore (eau du réseau) — 10 requêtes
    Intention (à reformuler) : améliorer le goût de l'eau du robinet sans changer d'installation
@@ -267,12 +268,4 @@
    Intention (à reformuler) : trouver quelqu'un près de chez moi qui s'en occupe
    Format probable          : page locale : zone d'intervention, cas traités dans le secteur, particularité de l'eau locale, preuve d'intervention
    - filtration eau Pertuis
-
-## À rattacher à la main — 1 requête
-# Aucun marqueur d'intention connu. Les requêtes isolées sont souvent les
-# plus intéressantes : ce sont elles qui portent les angles que personne
-# n'a pris. Le mot nu du marché arrive souvent ici — et il est en général
-# navigationnel ou local, donc une mauvaise base de page.
-   [puits]
-   - stérilisation eau puits
 

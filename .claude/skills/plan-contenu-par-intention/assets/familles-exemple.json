@@ -53,14 +53,14 @@
     "libelle": "Bactéries et désinfection UV",
     "intention": "savoir si mon eau est microbiologiquement sûre et comment la désinfecter",
     "format": "page solution : quand l'UV suffit, ce qu'il exige en amont, entretien de la lampe",
-    "motif": "\\b(bacterie|bacteries|bacteriologique|desinfection|desinfecter|sterilis|sterilisateur|uv)\\b"
+    "motif": "\\b(bacterie|bacteries|bacteriologique|desinfection|desinfecter|sterilis\\w*|sterilisateur|uv)\\b"
   },
   {
     "cle": "ph-corrosion",
     "libelle": "Eau acide, pH, corrosion des canalisations",
     "intention": "comprendre pourquoi mes canalisations se percent et corriger le pH",
     "format": "page de diagnostic + solution : lien pH/corrosion, neutralisation, ordre de traitement",
-    "motif": "\\b(ph|acide|acidite|corrosif|corrosive|corrosion|neutralis|neutraliseur|agressive)\\b"
+    "motif": "\\b(ph|acide|acidite|corrosif|corrosive|corrosion|neutralis\\w*|neutraliseur|agressive)\\b"
   },
   {
     "cle": "nitrates-contaminants",
@@ -81,7 +81,7 @@
     "libelle": "Adoucisseur (solution)",
     "intention": "choisir, faire installer et entretenir un adoucisseur",
     "format": "page solution : dimensionnement au volume et à la dureté, coût d'usage (sel), entretien, contre-indications",
-    "motif": "\\b(adouc|adoucisseur|adoucir|adoucissement|resine)\\b"
+    "motif": "\\b(adouc\\w*|adoucisseur|adoucir|adoucissement|resine)\\b"
   },
   {
     "cle": "gout-chlore",

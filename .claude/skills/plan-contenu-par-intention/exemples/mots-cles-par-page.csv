@@ -1,0 +1,201 @@
+section;page;requete;statut
+4.1;Analyse d'eau de puits : prix et paramètres;analyse eau de forage;à couvrir
+4.1;Analyse d'eau de puits : prix et paramètres;analyse eau de puits;à couvrir
+4.1;Analyse d'eau de puits : prix et paramètres;analyse qualité eau de puits;à couvrir
+4.1;Analyse d'eau de puits : prix et paramètres;test eau de puits;à couvrir
+4.1;Analyse d'eau de puits : prix et paramètres;test qualité eau de puits;à couvrir
+4.10;Nitrates et ammonium : ce qui se traite vraiment;ammonium eau forage;à couvrir
+4.10;Nitrates et ammonium : ce qui se traite vraiment;ammonium eau puits;à couvrir
+4.10;Nitrates et ammonium : ce qui se traite vraiment;contaminants eau puits;à couvrir
+4.10;Nitrates et ammonium : ce qui se traite vraiment;enlever nitrates eau;à couvrir
+4.10;Nitrates et ammonium : ce qui se traite vraiment;filtre nitrates eau;à couvrir
+4.10;Nitrates et ammonium : ce qui se traite vraiment;nitrates eau de puits;à couvrir
+4.10;Nitrates et ammonium : ce qui se traite vraiment;nitrates eau forage;à couvrir
+4.10;Nitrates et ammonium : ce qui se traite vraiment;pollution eau de puits;à couvrir
+4.10;Nitrates et ammonium : ce qui se traite vraiment;traitement ammonium eau;à couvrir
+4.10;Nitrates et ammonium : ce qui se traite vraiment;traitement nitrates eau;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;calcaire dans eau;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;calcaire eau robinet;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;eau calcaire;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;eau dure traitement;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;eau trop calcaire;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;eau très calcaire;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;enlever calcaire eau;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;filtration eau calcaire;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;filtrer eau calcaire;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;problème eau calcaire;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;problème eau dure;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;réduire calcaire eau;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;solution eau calcaire;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;tartre eau robinet;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;traces blanches eau robinet;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;traitement eau calcaire;à couvrir
+4.13;Eau calcaire : la dureté de votre commune;traitement eau dure;à couvrir
+4.14;Adoucisseur : dimensionner, et les 4 cas contre;adoucir eau de forage;à couvrir
+4.14;Adoucisseur : dimensionner, et les 4 cas contre;adoucir eau de puits;à couvrir
+4.14;Adoucisseur : dimensionner, et les 4 cas contre;adoucir eau maison;à couvrir
+4.15;Goût de chlore : de 0 à 400 €;améliorer goût eau robinet;à couvrir
+4.15;Goût de chlore : de 0 à 400 €;charbon actif eau robinet;à couvrir
+4.15;Goût de chlore : de 0 à 400 €;eau du robinet goût chlore;à couvrir
+4.15;Goût de chlore : de 0 à 400 €;enlever chlore eau;à couvrir
+4.15;Goût de chlore : de 0 à 400 €;filtration charbon actif maison;à couvrir
+4.15;Goût de chlore : de 0 à 400 €;filtration chlore eau;à couvrir
+4.15;Goût de chlore : de 0 à 400 €;filtre anti chlore;à couvrir
+4.15;Goût de chlore : de 0 à 400 €;filtre charbon actif eau;à couvrir
+4.15;Goût de chlore : de 0 à 400 €;mauvais goût eau;à couvrir
+4.15;Goût de chlore : de 0 à 400 €;mauvais goût eau robinet;à couvrir
+4.16;Osmoseur sous évier : ce qu'il retire et rejette;filtration eau cuisine;à couvrir
+4.16;Osmoseur sous évier : ce qu'il retire et rejette;filtration sous évier;à couvrir
+4.16;Osmoseur sous évier : ce qu'il retire et rejette;filtre eau cuisine;à couvrir
+4.16;Osmoseur sous évier : ce qu'il retire et rejette;filtre sous évier;à couvrir
+4.16;Osmoseur sous évier : ce qu'il retire et rejette;osmose inverse;à couvrir
+4.16;Osmoseur sous évier : ce qu'il retire et rejette;osmose inverse maison;à couvrir
+4.16;Osmoseur sous évier : ce qu'il retire et rejette;osmoseur eau;à couvrir
+4.16;Osmoseur sous évier : ce qu'il retire et rejette;osmoseur eau du robinet;à couvrir
+4.16;Osmoseur sous évier : ce qu'il retire et rejette;osmoseur maison;à couvrir
+4.16;Osmoseur sous évier : ce qu'il retire et rejette;osmoseur sous évier;à couvrir
+4.16;Osmoseur sous évier : ce qu'il retire et rejette;purifier eau maison;à couvrir
+4.16;Osmoseur sous évier : ce qu'il retire et rejette;purifier eau robinet;à couvrir
+4.17;Traitement de l'eau à Pertuis et sud Luberon;adoucisseur Pertuis;à couvrir
+4.17;Traitement de l'eau à Pertuis et sud Luberon;eau calcaire Pertuis;à couvrir
+4.17;Traitement de l'eau à Pertuis et sud Luberon;eau dure Pertuis;à couvrir
+4.17;Traitement de l'eau à Pertuis et sud Luberon;filtration eau Pertuis;à couvrir
+4.17;Traitement de l'eau à Pertuis et sud Luberon;traitement eau calcaire Pertuis;à couvrir
+4.3;Rendre l'eau d'un puits potable : les 5 étapes;potabilisation eau de forage;à couvrir
+4.3;Rendre l'eau d'un puits potable : les 5 étapes;potabilisation eau de puits;à couvrir
+4.3;Rendre l'eau d'un puits potable : les 5 étapes;purifier eau de forage;à couvrir
+4.3;Rendre l'eau d'un puits potable : les 5 étapes;purifier eau de puits;à couvrir
+4.3;Rendre l'eau d'un puits potable : les 5 étapes;rendre eau de forage potable;à couvrir
+4.3;Rendre l'eau d'un puits potable : les 5 étapes;rendre eau de puits potable;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;eau couleur rouille;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;eau ferrugineuse;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;eau jaune forage;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;eau jaune puits;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;eau jaune robinet;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;eau marron robinet;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;eau orange robinet;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;eau rouille robinet;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;linge jaune eau;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;linge orange eau;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;taches orange eau;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;taches rouille eau;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;traces orange sanitaires;à couvrir
+4.4;Eau jaune ou orange : les 3 causes;traces rouille sanitaires;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;déferrisation eau;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;déferriseur eau;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;déferriseur eau puits;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;déferriseur manganèse;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;enlever fer eau;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;enlever fer eau puits;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;enlever manganèse eau;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;fer dans eau;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;fer dans eau de forage;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;fer dans eau de puits;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;filtration fer eau;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;filtre anti fer eau;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;filtre eau fer manganèse;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;filtre fer eau puits;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;filtre manganèse eau;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;filtre manganèse puits;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;manganèse dans eau;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;manganèse eau de forage;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;manganèse eau de puits;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;problème fer eau puits;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;problème manganèse eau;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;traitement fer eau;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;traitement fer eau de forage;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;traitement fer eau de puits;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;traitement manganèse eau;à couvrir
+4.5;Déferriseur : à partir de quelle teneur traiter;traitement manganèse eau puits;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;eau forage odeur œuf pourri;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;eau forage qui sent mauvais;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;eau odeur œuf pourri;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;eau puits odeur œuf pourri;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;eau puits qui sent mauvais;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;eau qui sent mauvais;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;eau robinet odeur chlore;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;eau robinet qui sent mauvais;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;enlever odeur eau;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;enlever odeur eau puits;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;filtration odeur eau;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;filtre odeur eau;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;mauvaise odeur eau;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;odeur eau forage;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;odeur eau puits;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;odeur eau robinet;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;odeur soufre eau;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;soufre dans eau;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;sulfure hydrogène eau;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;traitement odeur eau;à couvrir
+4.6;Eau qui sent l'œuf pourri : le test de 30 secondes;traitement soufre eau;à couvrir
+4.7;Sable et eau trouble : quel micronage;eau avec sable;à couvrir
+4.7;Sable et eau trouble : quel micronage;eau boueuse;à couvrir
+4.7;Sable et eau trouble : quel micronage;eau boueuse forage;à couvrir
+4.7;Sable et eau trouble : quel micronage;eau boueuse puits;à couvrir
+4.7;Sable et eau trouble : quel micronage;eau chargée particules;à couvrir
+4.7;Sable et eau trouble : quel micronage;eau marron après pluie;à couvrir
+4.7;Sable et eau trouble : quel micronage;eau sale forage;à couvrir
+4.7;Sable et eau trouble : quel micronage;eau sale puits;à couvrir
+4.7;Sable et eau trouble : quel micronage;eau trouble forage;à couvrir
+4.7;Sable et eau trouble : quel micronage;eau trouble puits;à couvrir
+4.7;Sable et eau trouble : quel micronage;eau trouble robinet;à couvrir
+4.7;Sable et eau trouble : quel micronage;filtration eau trouble;à couvrir
+4.7;Sable et eau trouble : quel micronage;filtration sédiments eau;à couvrir
+4.7;Sable et eau trouble : quel micronage;filtre eau trouble;à couvrir
+4.7;Sable et eau trouble : quel micronage;filtre sable eau;à couvrir
+4.7;Sable et eau trouble : quel micronage;filtre sable puits;à couvrir
+4.7;Sable et eau trouble : quel micronage;filtre sédiments eau;à couvrir
+4.7;Sable et eau trouble : quel micronage;particules dans eau;à couvrir
+4.7;Sable et eau trouble : quel micronage;particules eau puits;à couvrir
+4.7;Sable et eau trouble : quel micronage;sable dans eau;à couvrir
+4.7;Sable et eau trouble : quel micronage;sable dans eau de forage;à couvrir
+4.7;Sable et eau trouble : quel micronage;sable dans eau de puits;à couvrir
+4.7;Sable et eau trouble : quel micronage;sédiments eau;à couvrir
+4.7;Sable et eau trouble : quel micronage;sédiments eau puits;à couvrir
+4.8;Stérilisateur UV : ce qu'il faut avant;UV eau de forage;à couvrir
+4.8;Stérilisateur UV : ce qu'il faut avant;UV eau de puits;à couvrir
+4.8;Stérilisateur UV : ce qu'il faut avant;bactéries eau de forage;à couvrir
+4.8;Stérilisateur UV : ce qu'il faut avant;bactéries eau de puits;à couvrir
+4.8;Stérilisateur UV : ce qu'il faut avant;désinfection eau de forage;à couvrir
+4.8;Stérilisateur UV : ce qu'il faut avant;désinfection eau de puits;à couvrir
+4.8;Stérilisateur UV : ce qu'il faut avant;filtre UV eau;à couvrir
+4.8;Stérilisateur UV : ce qu'il faut avant;potabilisation UV eau;à couvrir
+4.8;Stérilisateur UV : ce qu'il faut avant;stérilisateur eau UV;à couvrir
+4.8;Stérilisateur UV : ce qu'il faut avant;traitement UV eau;à couvrir
+4.8;Stérilisateur UV : ce qu'il faut avant;traitement bactéries eau;à couvrir
+4.8;Stérilisateur UV : ce qu'il faut avant;traitement bactériologique eau;à couvrir
+4.9;Canalisations percées, traces vertes : eau acide;corrosion canalisation eau;à couvrir
+4.9;Canalisations percées, traces vertes : eau acide;eau acide forage;à couvrir
+4.9;Canalisations percées, traces vertes : eau acide;eau acide puits;à couvrir
+4.9;Canalisations percées, traces vertes : eau acide;eau corrosive canalisation;à couvrir
+4.9;Canalisations percées, traces vertes : eau acide;eau trop acide;à couvrir
+4.9;Canalisations percées, traces vertes : eau acide;neutraliser eau acide;à couvrir
+4.9;Canalisations percées, traces vertes : eau acide;neutraliseur eau;à couvrir
+4.9;Canalisations percées, traces vertes : eau acide;neutraliseur pH eau;à couvrir
+4.9;Canalisations percées, traces vertes : eau acide;pH eau de puits;à couvrir
+4.9;Canalisations percées, traces vertes : eau acide;pH eau forage;à couvrir
+4.9;Canalisations percées, traces vertes : eau acide;traitement eau acide;à couvrir
+4.9;Canalisations percées, traces vertes : eau acide;traitement pH eau;à couvrir
+4A.1;Pack complet posé, version réseau;filtration eau potable maison;à couvrir
+4A.1;Pack complet posé, version réseau;filtre eau potable maison;à couvrir
+4A.1;Pack complet posé, version réseau;système filtration eau potable;à couvrir
+4A.2;Pack complet posé, version puits et forage;filtration eau de forage;à couvrir
+4A.2;Pack complet posé, version puits et forage;filtration eau de puits;à couvrir
+4A.2;Pack complet posé, version puits et forage;filtration eau de puits maison;à couvrir
+4A.2;Pack complet posé, version puits et forage;filtration eau forage maison;à couvrir
+4A.2;Pack complet posé, version puits et forage;filtre eau de forage;à couvrir
+4A.2;Pack complet posé, version puits et forage;filtre eau de puits;à couvrir
+4A.2;Pack complet posé, version puits et forage;station filtration eau de puits;à couvrir
+4A.2;Pack complet posé, version puits et forage;station traitement eau de puits;à couvrir
+4A.2;Pack complet posé, version puits et forage;stérilisation eau puits;à couvrir
+4A.2;Pack complet posé, version puits et forage;système filtration eau de puits;à couvrir
+4A.2;Pack complet posé, version puits et forage;système traitement eau de puits;à couvrir
+4A.2;Pack complet posé, version puits et forage;traitement eau de forage;à couvrir
+4A.2;Pack complet posé, version puits et forage;traitement eau de puits;à couvrir
+4A.2;Pack complet posé, version puits et forage;traitement eau de puits maison;à couvrir
+4A.2;Pack complet posé, version puits et forage;traitement eau de puits particulier;à couvrir
+4A.2;Pack complet posé, version puits et forage;traitement eau forage domestique;à couvrir
+4A.2;Pack complet posé, version puits et forage;traitement eau forage maison;à couvrir
+4A.2;Pack complet posé, version puits et forage;traitement eau forage privé;à couvrir
+4A.2;Pack complet posé, version puits et forage;traitement eau puits domestique;à couvrir
+4A.2;Pack complet posé, version puits et forage;traitement eau puits privé;à couvrir
