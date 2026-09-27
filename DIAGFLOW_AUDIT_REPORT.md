@@ -10,12 +10,18 @@
 
 L'annuaire DiagFlow (https://annuaire.diagflow.fr) a connu une baisse significative de trafic autour de l'update antispam Google du 18–21 août 2026, avec une interruption des leads entre le 11 août et le 17 septembre 2026. Cet audit cartographie l'architecture technique et SEO pour identifier les causes confirmées, les hypothèses à valider et les actions prioritaires.
 
-### Findings critiques à valider
+**Mise à jour (27/09/2026)** : L'analyse des exports Google Search Console (Performance + Couverture) confirme qu'il s'agit en réalité de **deux problèmes distincts superposés** — voir Section 4 pour le détail chiffré :
 
-1. **Architecture d'hébergement ambiguë** : Le code contient des indices pour deux configurations différentes (Cloudflare Pages vs Express/Replit). L'URL réellement servie doit être vérifiée.
-2. **Instabilité des slugs d'URL** : Deux chemins de synchronisation ADI utilisent des suffixes différents (stable vs aléatoire).
-3. **Redirections SEO absentes ou inadéquates** : Les anciennes fiches renvoient vers l'accueil au lieu des fiches actuelles.
-4. **Tâches de déploiement conflictuelles** : Déploiement quotidien (serveur) vs mensuel (GitHub Actions) en production.
+1. ✅ **CONFIRMÉ — Érosion chronique de l'index (-42% depuis juillet, toujours active)** : causée à 92% par des redirections orphelines (9 638 pages) et des conflits de canonical (4 518 pages), signature classique de l'instabilité des slugs entre les deux scripts de sync. C'est un problème continu, indépendant de l'épisode d'août, qui doit être corrigé en priorité absolue.
+2. 🟡 **PROBABLE — Suppression algorithmique ponctuelle de visibilité (20 août – 8 septembre)** : chute de position (-98% de clics) SANS aucune perte d'indexation pendant l'épisode (nombre de pages indexées identique jour à jour à l'entrée et à la sortie de la chute), ce qui élimine une cause technique/panne et pointe vers une réévaluation algorithmique site-wide, cohérente avec l'update antispam. Récupération instantanée et totale le 9 septembre — à confirmer via le rapport "Actions manuelles" de Search Console (non disponible dans l'export fourni).
+
+### Findings critiques
+
+1. ✅ **Instabilité des slugs d'URL — CONFIRMÉE par les données GSC** : Deux chemins de synchronisation ADI utilisent des suffixes différents (stable vs aléatoire), causant 92% des pages actuellement désindexées.
+2. 🟡 **Chute algorithmique d'août — pattern confirmé, cause exacte à finaliser** : Indexation stable pendant toute la chute → exclut un problème technique/serveur ; cohérent avec un effet d'update Google.
+3. ⚠️ **Architecture d'hébergement ambiguë** : Le code contient des indices pour deux configurations différentes (Cloudflare Pages vs Express/Replit). L'URL réellement servie doit être vérifiée.
+4. ⚠️ **Redirections SEO absentes ou inadéquates** : Les anciennes fiches renvoient vers l'accueil au lieu des fiches actuelles — cohérent avec le volume de "pages avec redirection" observé.
+5. ⚠️ **Tâches de déploiement conflictuelles** : Déploiement quotidien (serveur) vs mensuel (GitHub Actions) en production.
 
 ---
 
@@ -202,59 +208,98 @@ schedule('daily', async () => {
 
 ---
 
-## 4. Analyse de la Baisse de Trafic (Août 2026)
+## 4. Analyse de la Baisse de Trafic — DONNÉES CONFIRMÉES (Export GSC 27/09/2026)
 
-### 4.1 Timeline des Événements
+**Mise à jour** : Cette section a été révisée suite à l'analyse des exports Google Search Console (Performance + Couverture, période juin–septembre 2026). Les données révèlent **deux phénomènes distincts et largement indépendants**, que l'hypothèse initiale avait fusionnés à tort. Cette distinction est le finding le plus important de l'audit.
 
-| Date | Événement | Impact |
+### 4.1 Phénomène A — Érosion chronique de l'index (CONFIRMÉ, structurel, toujours actif)
+
+**Donnée brute** (rapport de couverture, colonne "Dans l'index") :
+
+| Date | Pages indexées | Pages non-indexées | Variation |
+|------|----------------|---------------------|-----------|
+| 1er juillet (pic) | 20 577 | 2 662 | — |
+| 19 août | 14 284 | 11 774 | -6 293 (-30,6%) |
+| 21 septembre (dernier point) | 11 856 | 15 421 | -8 721 (-42,4%) depuis le pic |
+
+La désindexation est **continue depuis début juillet**, par paliers réguliers (tous les 3 à 10 jours), et **n'a pas été affectée par l'épisode d'août** ni par la reprise de septembre — elle se poursuit encore au dernier point de données disponible (21 septembre). Ce n'est donc **pas le même événement** que la chute de trafic d'août.
+
+**Répartition des causes (rapport "Problèmes critiques", snapshot actuel — total 14 157 pages, soit 92% des 15 421 pages non-indexées)** :
+
+| Raison | Pages | % du total non-indexé |
+|--------|-------|------------------------|
+| **Page avec redirection** | **9 638** | **62,5%** |
+| **Autre page avec balise canonique correcte** (Google choisit un autre canonical que celui déclaré) | **4 518** | **29,3%** |
+| Explorée, actuellement non indexée (qualité/priorité) | 1 264 | 8,2% |
+| Exclue par balise "noindex" | 1 | ~0% |
+
+**Interprétation — confirme l'Hypothèse B du rapport initial** :
+
+Ces deux causes dominantes (91,8% du total) sont la signature exacte d'une **instabilité de slugs** :
+- **"Page avec redirection" (9 638 pages)** : un volume massif d'URLs que Google a déjà crawlées et qui redirigent désormais ailleurs. Cohérent avec un re-sync qui régénère des slugs différents à chaque exécution — chaque ancienne génération d'URL devient une redirection "orpheline" que Google conserve en mémoire sans plus l'indexer comme contenu unique.
+- **"Autre page avec balise canonique correcte" (4 518 pages)** : Google **rejette le canonical déclaré par la page** et lui substitue un autre URL comme canonical. C'est le signal classique de **contenu quasi-dupliqué à grande échelle** — plusieurs URLs (probablement plusieurs générations de slugs pour la même fiche diagnostiqueur) coexistant simultanément dans le crawl.
+
+**Verdict** : ✅ **CONFIRMÉ** — Le problème de double synchronisation (slug stable `sync-adi.ts` vs slug aléatoire `annuaire-sync.ts`) décrit en Section 2 est very probablement la cause directe de cette fuite d'index. Il s'agit d'un problème **actif et continu**, indépendant de l'épisode d'août, qui coûte l'équivalent de plusieurs centaines de pages indexées par semaine.
+
+**Priorité** : 🔴 **Maximale** — chaque cycle de sync semble aggraver la situation ; c'est la cause structurelle la plus coûteuse à long terme (perte de ~42% de l'inventaire indexé en moins de 3 mois).
+
+### 4.2 Phénomène B — Suppression aiguë de visibilité, 20 août – 8 septembre (CONFIRMÉ dans son ampleur, cause encore à distinguer)
+
+**Donnée brute** (rapport de performance, moyennes quotidiennes) :
+
+| Période | Clics/jour (moy.) | Impressions/jour (moy.) | Position moy. |
+|---------|--------------------|--------------------------|----------------|
+| Avant (1–19 août) | 37,7 | 795 | ~14–18 |
+| **Pendant (20 août – 8 sept.)** | **0,65** (-98,3%) | **60** (-92,4%) | **~40–65** |
+| Après (9–24 sept.) | 52,0 | 878 | ~9–11 |
+
+**Point clé de la bascule** :
+
+| Date | Impressions | Pages indexées (même jour) |
+|------|-------------|------------------------------|
+| 19 août | 878 | 14 284 |
+| **20 août** | **45** | **14 284** (identique) |
+| 8 sept | 108 | 12 697 |
+| **9 sept** | **1 157** | **12 697** (identique) |
+
+**Interprétation critique** : Le nombre de pages indexées **n'a pas bougé d'un jour à l'autre** ni à l'entrée ni à la sortie de la chute (14 284 → 14 284 le 19-20 août ; 12 697 → 12 697 le 8-9 sept). Cela **élimine les hypothèses de blocage technique** (panne serveur, robots.txt bloquant, erreurs 5xx à Googlebot, désindexation massive) : Google continuait de crawler et d'indexer le site normalement pendant toute la période. Ce qui s'est effondré, c'est uniquement le **classement (position moyenne)** et par conséquent la visibilité/clics — pas l'indexation.
+
+Ce pattern (chute uniforme sur l'ensemble des pages/requêtes, aucun impact sur l'indexation, bascule en un seul jour dans les deux sens, durée ~19 jours) est **la signature d'une réévaluation algorithmique à l'échelle du site**, et non d'un incident technique local. Il est cohérent avec :
+- Une fenêtre de déploiement d'update Google (Google indique généralement 1 à 3 semaines de déploiement complet pour les updates majeures — 19 jours s'inscrit dans cette fourchette) ;
+- Le timing correspond à la fin de la fenêtre d'update antispam du 18–21 août signalée par le client, avec une bascule effective le 20 août.
+
+**Verdict** : 🟡 **PROBABLE mais non définitivement confirmé** — Les données de performance/couverture sont cohérentes avec un effet d'update algorithmique (déploiement puis réévaluation), mais ceci **ne peut pas être distingué à 100%** d'une action manuelle levée ou d'un autre mécanisme sans consulter le rapport **"Actions manuelles"** de Search Console (non inclus dans l'export fourni — ce rapport est sous Search Console → Sécurité et actions manuelles).
+
+**Actions pour lever le doute restant** :
+1. Consulter Search Console → *Sécurité et actions manuelles* → vérifier absence de pénalité manuelle sur la période
+2. Vérifier les logs serveur/Cloudflare (WAF, bot-fight-mode, règles de sécurité) pour la fenêtre 20 août–8 sept — écarter définitivement un blocage sélectif de Googlebot qui n'aurait pas affecté l'indexation mais aurait pu affecter le rendu/évaluation qualité
+3. Vérifier s'il y a eu un déploiement de contenu (`generate-seo-content.ts`) coïncidant avec le 8-9 septembre qui aurait pu déclencher une réévaluation positive
+
+### 4.3 Timeline Consolidée
+
+| Date | Événement | Preuve |
 |------|-----------|--------|
-| 18–21 août | Update antispam Google | 📉 Trafic ↓ |
-| 11 août | Dernier lead avant interruption | ⚠️ Début de la baisse |
-| 12–16 août | Période sombre (pas de leads) | ⚠️ Affectation confirmée |
-| 17 sept | Leads reprennent | ✅ Récupération partielle |
-| 27 sept | Date d'audit | ℹ️ +10 jours après reprise |
+| 1er juillet | Pic d'indexation (20 577 pages) | GSC Couverture |
+| Juillet–sept. (continu) | Érosion d'index -42% (redirects + canonicals dupliqués) | GSC Couverture |
+| 11 août | Dernier lead avant interruption | Déclaration client |
+| 18-19 août | Dernier jour de trafic normal (878 impr., position ~14) | GSC Performance |
+| **20 août** | **Chute brutale de position (14→54,8) sans perte d'indexation** | GSC Performance + Couverture |
+| 20 août – 8 sept | Plateau bas (~60 impr./j, ~0,65 clic/j) | GSC Performance |
+| **9 septembre** | **Récupération intégrale et instantanée (position 8,9, 1157 impr.)** | GSC Performance |
+| 17 septembre | Reprise des leads (client) — 8 jours après la récupération GSC | Déclaration client |
+| 21 septembre | Dernier point de données ; érosion d'index toujours active | GSC Couverture |
 
-### 4.2 Causes Potentielles (à valider)
+Le décalage de 8 jours entre la récupération de visibilité (9 sept., GSC) et la reprise effective des leads (17 sept., déclaré) est cohérent avec un délai normal de re-découverte/conversion utilisateur, et ne constitue pas une anomalie supplémentaire.
 
-#### A. Penalité d'Antispam Google (PROBABLE)
+### 4.4 Causes — Statut Final
 
-**Indices directs** :
-- Timing aligné avec l'update du 18–21 août
-- Baisse soudaine, non progressive
-- Reprise après ~1 mois (délai de récupération typique)
-
-**Signaux d'antispam que Google détecte** :
-- Contenu généré (faible unicité SEO)
-- Spam de mots-clés (slugs répétitifs : "jean-dupont-*-1", "jean-dupont-*-2")
-- Liens internes artificiels (maillage non-naturel)
-- Trop de pages minces (fiche → peu de contenu unique)
-
-#### B. Instabilité des URLs (PROBABLE - Cause Contributive)
-
-Si `annuaire-sync.ts` (aléatoire) était actif avant août :
-- Chaque sync changeait les URLs
-- Google crawlait les mêmes fiches à des slugs différents
-- Patterns de shuffling d'URL = signal de spam
-
-**Action** : Vérifier quel sync était actif en agosto en passant en revue les logs de déploiement.
-
-#### C. Problème de Canonicals/Redirects (PROBABLE)
-
-- Anciennes URLs redirigent vers `/` (accueil) au lieu de la nouvelle fiche
-- Google voit un écrasement de contenu (plusieurs URLs → une seule page)
-- Signalé comme contenu dupliqué ou manipulation SEO
-
-#### D. Contenu Dupliqué Intra-site (À VÉRIFIER)
-
-- Pages d'accueil, départements, villes avec titres/descriptions génériques
-- Peu ou pas de différenciation entre pages de même type
-- Google = baisse de confiance dans la qualité
-
-#### E. Problème d'Indexation (À VÉRIFIER)
-
-- Soft 404s (pages générées mais sans contenu utilisateur)
-- Sitemap stale ou incomplet
-- robots.txt bloquant les fiches
+| Cause | Statut | Impact | Priorité |
+|-------|--------|--------|----------|
+| **A. Instabilité des slugs / double sync** → érosion continue de l'index (-42%) | ✅ **CONFIRMÉ** (92% des non-indexées expliquées) | Chronique, continu | 🔴 Maximale |
+| **B. Réévaluation algorithmique site-wide (probable update antispam)** → chute de position sans perte d'indexation, 20/08–08/09 | 🟡 **PROBABLE, fortement étayé** | Ponctuel, résolu | 🟠 Investiguer (actions manuelles) puis clore |
+| C. Blocage technique / panne serveur pendant la chute | ❌ **INFIRMÉ** — indexation stable pendant tout l'épisode | — | — |
+| D. Contenu dupliqué intra-site (titres/descriptions génériques) | 🟡 Contribue probablement à B et à la composante "Explorée non indexée" (1 264 pages) | À vérifier | 🟡 Moyenne |
+| E. Soft 404 / sitemap / robots.txt | ⚪ Non testé dans cet export — nécessite crawl direct | — | 🟡 Moyenne |
 
 ---
 
@@ -434,24 +479,37 @@ Q2. Quel système de sync était actif en août 2026 ?
 ### SEO
 
 ```
-Q3. Les slugs URLs ont-ils changé entre juillet et août ?
-    Exemple avant : /diagnostiqueur/jean-dupont-xyz789
-    Exemple après : /diagnostiqueur/jean-dupont-ab12cd34
-    Impact : Si oui = changemement de canonical + perte de rankingpour anciens slugs
-    Méthode : Wayback Machine + crawl comparatif
+Q3. Les slugs URLs ont-ils changé entre juillet et août ?          [✅ RÉPONDU — indirectement confirmé]
+    Preuve : 9 638 pages "avec redirection" + 4 518 "canonical différent choisi par Google"
+    dans le rapport de couverture (snapshot 27/09) = 92% des pages non-indexées.
+    Ce volume ne peut s'expliquer que par des générations successives d'URLs différentes
+    pour les mêmes fiches. Reste à confirmer avec Wayback Machine quel format de slug
+    a changé et à quelle date exacte (voir Priority 1 ci-dessous).
 ```
 
 ```
-Q4. Existe-t-il des 301 redirects depuis anciens vers nouveaux slugs ?
-    Attendu : Oui, pour chaque URL qui a changé
-    Observé : À vérifier
-    Impact : Absence = perte d'equity de lien + 404s
+Q4. Existe-t-il des 301 redirects depuis anciens vers nouveaux slugs ?    [⚠️ PARTIELLEMENT RÉPONDU]
+    Observé : 9 638 URLs sont vues par Google comme "page avec redirection" — donc DES
+    redirects existent techniquement. Mais leur volume énorme et croissant (l'index a perdu
+    8 721 pages, -42%, depuis juillet et continue de baisser au 21/09) suggère soit :
+      a) des redirects en boucle/chaîne mal ciblés (ex. vers l'accueil au lieu de la fiche), soit
+      b) un cycle de resync qui régénère continuellement de nouvelles URLs, créant sans cesse
+         de nouvelles redirections orphelines plus vite qu'elles ne se stabilisent.
+    Impact confirmé : perte nette et continue d'inventaire indexé.
+    Action restante : vérifier avec curl -L sur un échantillon d'anciennes URLs (Wayback)
+    si la redirection cible bien la fiche actuelle ou l'accueil.
 ```
 
 ```
-Q5. Google a-t-il détecté une penalité d'antispam ou un problème d'indexation ?
-    Source : Google Search Console
-    Données : Notifications, rapports d'indexation, erreurs de crawl
+Q5. Google a-t-il détecté une penalité d'antispam ou un problème d'indexation ?  [🟡 PATTERN CONFIRMÉ]
+    Source : Google Search Console (Performance + Couverture, exporté le 27/09/2026)
+    Données clés :
+      - Chute de position 20/08 (14,3 → 54,8) à 08/09, récupération totale et instantanée le 09/09
+      - Pages indexées IDENTIQUES jour à jour à l'entrée (19-20 août) et à la sortie (8-9 sept)
+        de la chute → élimine un problème d'indexation/technique comme cause de CET épisode
+      - Le nombre de pages indexées, lui, baisse en continu depuis juillet (problème séparé, cf Q3/Q4)
+    Reste à vérifier : rapport "Sécurité et actions manuelles" de Search Console (non fourni
+    dans cet export) pour confirmer/exclure une action manuelle plutôt qu'un effet d'update.
 ```
 
 ---
@@ -511,25 +569,34 @@ Q5. Google a-t-il détecté une penalité d'antispam ou un problème d'indexatio
 
 ---
 
-## 11. Conclusion Provisoire
+## 11. Conclusion (mise à jour avec données GSC confirmées)
 
-L'annuaire DiagFlow a subi une baisse de trafic cohérente avec l'update antispam Google d'août 2026, combinée avec une probable instabilité des URLs due à la synchronisation ADI. Les trois causes probables sont :
+L'analyse des exports Google Search Console révèle **deux problèmes distincts**, et non un seul événement :
 
-1. **Penalité d'antispam Google** (certain le 18–21 août)
-2. **Instabilité des slugs URL** (probable si sync aléatoire était actif)
-3. **Absence de redirects SEO cohérents** (probable d'après la description)
+1. ✅ **CONFIRMÉ — Fuite chronique d'index (-42% depuis juillet, active en continu)** : 92% des pages non-indexées s'expliquent par des redirections orphelines et des conflits de canonical, signature directe de l'instabilité des deux scripts de synchronisation ADI (slug stable vs aléatoire). C'est le problème **le plus grave et le plus coûteux à long terme**, car il continue de s'aggraver indépendamment de l'épisode d'août — au dernier point de données (21 sept.), l'index continue de perdre des pages.
 
-La reprise partielle après le 17 septembre suggère une amélioration progressive, potentiellement due à une correction côté Google ou à un correctif côté site. **Les données de GSC et les logs de déploiement sont critiques pour confirmer ou infirmer ces hypothèses.**
+2. 🟡 **PROBABLE — Suppression algorithmique ponctuelle (20 août – 8 sept.)** : chute de -98% des clics et -92% des impressions, avec un nombre de pages indexées **parfaitement stable** pendant toute la durée de l'épisode. Cela exclut formellement une cause technique (panne, blocage crawler, erreurs serveur) et pointe vers une réévaluation algorithmique du site dans son ensemble, cohérente avec la fenêtre de déploiement de l'update antispam signalée par le client. Récupération instantanée et complète, à 100%, en un seul jour (9 septembre) — pattern typique de fin de rollout d'update plutôt que de récupération progressive suite à correctif manuel.
+
+3. ❌ **INFIRMÉ** : Aucune preuve de panne technique, de blocage robots.txt, ou de désindexation massive pendant l'épisode d'août — l'indexation est restée stable durant toute la période de chute.
+
+**Ce qui reste à vérifier** pour clore complètement le dossier :
+- Rapport "Actions manuelles" de Search Console (non inclus dans cet export)
+- Confirmation via Wayback Machine du changement effectif de format de slug et de sa date
+- Cible réelle des 9 638 redirections (fiche actuelle vs accueil)
+- Quel script de sync (stable vs aléatoire) tournait effectivement en juillet-août (logs de déploiement / git history)
+
+**Priorité d'action** : Le Phénomène A (fuite d'index) doit être corrigé immédiatement — il s'agit d'un problème actif qui continue de dégrader l'inventaire indexé à chaque cycle de synchronisation, indépendamment de tout facteur externe Google. Le Phénomène B semble résolu de lui-même mais mérite une vérification finale (actions manuelles) avant d'être classé comme définitivement clos.
 
 ---
 
-## Prochaines Étapes
+## Prochaines Étapes (mises à jour)
 
-1. **Aujourd'hui** : Répondre aux Q1–Q5 (hébergement, sync active, slugs, redirects, penalité)
-2. **Demain** : Lancer crawl complet et audit technique SEO
-3. **Jour 3** : Analyser contenu généré et schema markup
-4. **Jour 4** : Compiler findings et recommandations
-5. **Jour 5+** : Implémenter fixes et tracker recovery
+1. ✅ **Fait** : Analyse des exports GSC Performance + Couverture — deux causes séparées identifiées et quantifiées
+2. **Immédiat** : Vérifier le rapport "Sécurité et actions manuelles" GSC pour clore Q5 définitivement
+3. **Immédiat** : Identifier et corriger la cible des 9 638 URLs en redirection (vers fiche actuelle, pas accueil)
+4. **Court terme** : Auditer git history / logs de déploiement pour confirmer quel script de sync était actif et migrer vers le slug stable (`sync-adi.ts`) de façon unique et exclusive
+5. **Court terme** : Mettre en place un mapping de redirections 301 systématique ancien-slug → nouveau-slug à chaque resync futur
+6. **Suivi** : Re-exporter GSC Couverture dans 2-3 semaines pour vérifier que la courbe de désindexation s'inverse après correctif
 
 ---
 
