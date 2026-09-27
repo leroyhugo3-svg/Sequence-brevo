@@ -1,8 +1,9 @@
 # Audit Technique et SEO — Annuaire DiagFlow
 
 **Date d'audit** : 27 septembre 2026  
-**Analyste** : Claude Haiku 4.5  
-**Branche** : claude/diagflow-annuaire-audit-6dgd99
+**Analyste** : Claude Sonnet 5  
+**Branche** : claude/diagflow-annuaire-audit-6dgd99  
+**Sources analysées** : Export Google Search Console (Performance + Couverture, juin–sept. 2026) + code source complet du monorepo (`annuaire-source-claude.zip`)
 
 ---
 
@@ -10,18 +11,21 @@
 
 L'annuaire DiagFlow (https://annuaire.diagflow.fr) a connu une baisse significative de trafic autour de l'update antispam Google du 18–21 août 2026, avec une interruption des leads entre le 11 août et le 17 septembre 2026. Cet audit cartographie l'architecture technique et SEO pour identifier les causes confirmées, les hypothèses à valider et les actions prioritaires.
 
-**Mise à jour (27/09/2026)** : L'analyse des exports Google Search Console (Performance + Couverture) confirme qu'il s'agit en réalité de **deux problèmes distincts superposés** — voir Section 4 pour le détail chiffré :
+**Mise à jour (27/09/2026, données GSC)** : L'analyse des exports Google Search Console confirme qu'il s'agit en réalité de **deux problèmes distincts superposés** — voir Section 4 pour le détail chiffré.
 
-1. ✅ **CONFIRMÉ — Érosion chronique de l'index (-42% depuis juillet, toujours active)** : causée à 92% par des redirections orphelines (9 638 pages) et des conflits de canonical (4 518 pages), signature classique de l'instabilité des slugs entre les deux scripts de sync. C'est un problème continu, indépendant de l'épisode d'août, qui doit être corrigé en priorité absolue.
-2. 🟡 **PROBABLE — Suppression algorithmique ponctuelle de visibilité (20 août – 8 septembre)** : chute de position (-98% de clics) SANS aucune perte d'indexation pendant l'épisode (nombre de pages indexées identique jour à jour à l'entrée et à la sortie de la chute), ce qui élimine une cause technique/panne et pointe vers une réévaluation algorithmique site-wide, cohérente avec l'update antispam. Récupération instantanée et totale le 9 septembre — à confirmer via le rapport "Actions manuelles" de Search Console (non disponible dans l'export fourni).
+**Mise à jour (27/09/2026, code source)** : L'analyse du code confirme, avec référence précise aux fichiers et lignes, le mécanisme exact de l'érosion d'index et répond définitivement aux questions d'architecture — voir Sections 1 à 3.
+
+1. ✅ **CONFIRMÉ — Érosion chronique de l'index (-42% depuis juillet, toujours active)** : causée à 92% par des redirections orphelines (9 638 pages) et des conflits de canonical (4 518 pages). **Mécanisme identifié dans le code** : une clé de correspondance fragile (nom+prénom+code postal, pas l'identifiant officiel ADI) partagée par les deux scripts de sync, combinée à une purge complète du dossier de sortie à chaque régénération et à l'absence totale de tout mécanisme de redirection applicatif. Problème continu et actif, à corriger en priorité absolue.
+2. 🟡 **PROBABLE — Suppression algorithmique ponctuelle de visibilité (20 août – 8 septembre)** : chute de position (-98% de clics) SANS aucune perte d'indexation pendant l'épisode, ce qui élimine une cause technique/panne et pointe vers une réévaluation algorithmique site-wide, cohérente avec l'update antispam. Récupération instantanée et totale le 9 septembre — à confirmer via le rapport "Actions manuelles" de Search Console (non disponible dans l'export fourni).
 
 ### Findings critiques
 
-1. ✅ **Instabilité des slugs d'URL — CONFIRMÉE par les données GSC** : Deux chemins de synchronisation ADI utilisent des suffixes différents (stable vs aléatoire), causant 92% des pages actuellement désindexées.
-2. 🟡 **Chute algorithmique d'août — pattern confirmé, cause exacte à finaliser** : Indexation stable pendant toute la chute → exclut un problème technique/serveur ; cohérent avec un effet d'update Google.
-3. ⚠️ **Architecture d'hébergement ambiguë** : Le code contient des indices pour deux configurations différentes (Cloudflare Pages vs Express/Replit). L'URL réellement servie doit être vérifiée.
-4. ⚠️ **Redirections SEO absentes ou inadéquates** : Les anciennes fiches renvoient vers l'accueil au lieu des fiches actuelles — cohérent avec le volume de "pages avec redirection" observé.
-5. ⚠️ **Tâches de déploiement conflictuelles** : Déploiement quotidien (serveur) vs mensuel (GitHub Actions) en production.
+1. ✅ **Instabilité des slugs d'URL — CONFIRMÉE par le code ET les données GSC** : `annuaire-sync.ts` ligne 24 utilise `Math.random()` pour le suffixe de slug ; `sync-adi.ts` utilise un hash déterministe de l'adi_id. C'est le webhook utilisant `annuaire-sync.ts` (slug aléatoire) qui pilote réellement le contenu de production.
+2. ✅ **Cause racine plus profonde que le simple suffixe** : les deux scripts partagent la même clé de correspondance fragile (`nom|prenom|codePostal`, pas un identifiant stable ADI officiel) — toute dérive de cette clé entre deux exports crée une fiche dupliquée et abandonne l'ancienne, sans jamais créer de redirection.
+3. ✅ **Hébergement définitivement clarifié** : c'est **Express/Replit** qui sert `annuaire.diagflow.fr` directement (confirmé dans `app.ts`) — le pipeline Cloudflare Pages est un vestige cassé (script de déploiement manquant, workflow CI pointant vers l'ancien domaine `diagassist.fr`).
+4. ✅ **Absence confirmée de redirections applicatives** : aucun `res.redirect()` n'existe dans Express pour les routes `/diag/*` ou `/diagnostiqueur/*`. Le seul redirect présent dans le dépôt (`_redirects`, convention Cloudflare Pages) est inerte puisqu'Express sert le site. Les URLs désactivées deviennent des 404 au cycle de purge suivant — le "avec redirection" vu dans GSC provient très probablement d'une règle configurée hors dépôt, au niveau de la zone Cloudflare.
+5. 🟡 **Chute algorithmique d'août — pattern confirmé, cause exacte à finaliser** : Indexation stable pendant toute la chute → exclut un problème technique/serveur ; cohérent avec un effet d'update Google. À confirmer via le rapport Actions Manuelles de Search Console.
+6. ⚠️ **Pipeline Cloudflare Pages / GitHub Actions à nettoyer** : legacy, ciblant le mauvais domaine et le mauvais projet, sans effet sur le site réel — source de confusion pour toute future maintenance mais pas de risque direct pour le site actif.
 
 ---
 
@@ -38,18 +42,47 @@ L'annuaire DiagFlow (https://annuaire.diagflow.fr) a connu une baisse significat
 | Base de données | PostgreSQL (Replit) | ✅ |
 | Package manager | pnpm (monorepo) | ✅ |
 | Hébergement API | Replit service | ✅ |
-| Annuaire statique | **Cloudflare Pages ou Express ?** | ⚠️ **À vérifier** |
+| Annuaire statique | **Express (confirmé par le code source)** | ✅ **CONFIRMÉ** |
 
 ### 1.2 Domaines et Points de Terminaison
 
 | Service | Domaine/URL | Statut |
 |---------|-------------|--------|
 | API | https://diagflow.fr/api/healthz | ✅ Réactif |
-| Annuaire public | https://annuaire.diagflow.fr | ⚠️ À vérifier |
-| Pages statiques | Cloudflare Pages ? Express ? | ⚠️ À confirmer |
-| DNS | Cloudflare | ✅ |
+| Annuaire public | https://annuaire.diagflow.fr | ✅ Servi par Express (voir 1.2 bis) |
+| Pages statiques | **Express, PAS Cloudflare Pages** | ✅ Confirmé par le code |
+| DNS | Cloudflare (probable proxy/CDN devant Express, pas d'hébergement statique indépendant) | ⚠️ Config Cloudflare (règles de redirection, cache) à vérifier dans le dashboard — hors périmètre du code source |
 
-**Action immédiate** : Déterminer le chemin exact servant annuaire.diagflow.fr (vérifier les headers HTTP, la configuration Cloudflare, les logs Express).
+### 1.2 bis — Réponse définitive à Q1 : qui sert annuaire.diagflow.fr ?
+
+**✅ CONFIRMÉ par lecture directe du code** — `artifacts/api-server/src/app.ts` (lignes 76-89) :
+
+```typescript
+// Serve annuaire static site
+const annuaireDistDir =
+  process.env.ANNUAIRE_DIST_DIR ||
+  path.resolve(process.cwd(), "../../scripts/dist/annuaire");
+
+// Production: serve at root when accessed via annuaire.diagflow.fr
+app.use((req, res, next) => {
+  if (req.hostname === "annuaire.diagflow.fr") {
+    return express.static(annuaireDistDir, { index: "index.html" })(req, res, () => {
+      res.status(404).send("Page introuvable");
+    });
+  }
+  next();
+});
+```
+
+**C'est bien Express (sur Replit) qui sert directement le domaine `annuaire.diagflow.fr`**, en lisant les fichiers HTML statiques générés sur le disque local (`scripts/dist/annuaire/`). Cloudflare n'intervient qu'en tant que DNS/proxy CDN devant cette origine Replit — **il n'existe pas de déploiement Cloudflare Pages indépendant et à jour pour ce domaine**.
+
+**Le pipeline Cloudflare Pages présent dans le code est un vestige non fonctionnel pour ce domaine, pour trois raisons cumulées** :
+
+1. Le workflow GitHub Actions (`.github/workflows/deploy-annuaire.yml`) déploie vers le projet Cloudflare Pages `annuaire-diagassist` avec `ANNUAIRE_BASE_URL: https://annuaire.diagassist.fr` — **l'ANCIEN domaine**, pas `diagflow.fr`. Ce workflow ne touche donc probablement même pas le bon projet Cloudflare.
+2. Le cron nocturne côté serveur (`index.ts`, `spawnCloudfareDeploy()`) tente d'exécuter `scripts/run-deploy-cloudflare.sh` — **ce fichier n'existe pas dans le dépôt**. Chaque tentative de déploiement Cloudflare échoue silencieusement (erreur ENOENT loggée en warning), même quand `ANNUAIRE_AUTO_DEPLOY=true`.
+3. Le fichier `_redirects` généré par `generate-pages.ts` (convention propre à Cloudflare Pages) n'a **aucun effet** puisqu'Express — et non Cloudflare Pages — sert les fichiers : `express.static()` ne connaît pas ce format.
+
+**Conséquence pratique** : ce qui détermine réellement le contenu visible sur annuaire.diagflow.fr, c'est uniquement l'état du dossier `scripts/dist/annuaire/` sur le disque du service Replit au moment de la requête — régénéré soit par le cron quotidien (2h du matin), soit par le endpoint webhook `/api/cron/sync-annuaire` (voir Section 2).
 
 ### 1.3 Monorepo Structure
 
@@ -84,127 +117,160 @@ projet-replit/
 
 ---
 
-## 2. Flux de Données et Synchronisation ADI
+## 2. Flux de Données et Synchronisation ADI — MÉCANISME CONFIRMÉ PAR LE CODE
 
-### 2.1 Pipeline de Synchronisation
+### 2.1 Trois Pipelines Distincts et Non Coordonnés
+
+La lecture du code révèle **trois déclencheurs différents**, pas un seul pipeline linéaire :
 
 ```
-data.gouv.fr (ADI) 
-    ↓
-scripts/sync-adi.ts (import périodique)
-    ↓
-PostgreSQL (table diagnostiqueurs)
-    ↓
-scripts/generate-pages.ts (génération HTML)
-    ↓
-Pages statiques (HTML)
-    ↓
-Cloudflare Pages ou Express (serving)
+A. DÉMARRAGE (une seule fois, si table diagnostiqueurs vide)
+   index.ts → pnpm run sync:adi → scripts/src/sync-adi.ts (slug DÉTERMINISTE)
+            → puis generate:pages (scope=all) → dossier dist régénéré
+
+B. CRON NOCTURNE (chaque nuit 2h00, si ANNUAIRE_AUTO_DEPLOY=true)
+   index.ts cron.schedule("0 2 * * *") → generate:pages (scope=all, SANS re-sync ADI)
+            → tentative de déploiement Cloudflare (CASSÉE, cf. 1.2 bis)
+
+C. WEBHOOK HTTP externe (fréquence hors dépôt — commentaire indique "hebdomadaire")
+   POST /api/cron/sync-annuaire → runAdiSync() dans lib/annuaire-sync.ts (slug ALÉATOIRE)
+            → puis spawn direct de generate-pages.ts (scope=all, sans passer --diags=)
 ```
 
-### 2.2 Deux Chemins de Synchronisation Identifiés
+**C'est le pipeline C qui pilote réellement l'évolution du contenu de l'annuaire** (ajout/retrait de diagnostiqueurs) : le pipeline A ne s'exécute qu'une fois au tout premier démarrage, et le pipeline B ne fait que régénérer le HTML depuis l'état actuel de la base — il ne resynchronise jamais les données ADI.
 
-#### Chemin 1 : `scripts/sync-adi.ts` (Suffixe stable)
+### 2.2 Les Deux Scripts de Synchronisation — Preuve Ligne par Ligne
+
+#### `scripts/src/sync-adi.ts` (lignes 30-39) — suffixe DÉTERMINISTE
 
 ```typescript
-// Génère un slug stable basé sur l'identifiant ADI
-slug = `${normalizedName}-${adiId.slice(-8)}`
-// Exemple : "jean-dupont-diagnostiqueur-ab12cd34"
+function generateBaseSlug(nom: string, prenom: string, adiId: string): string {
+  const base = `${toSlug(prenom)}-${toSlug(nom)}`;
+  // Suffix déterministe dérivé de l'adi_id : stable entre les re-insertions ADI
+  let h = 0x811c9dc5;
+  for (let i = 0; i < adiId.length; i++) {
+    h ^= adiId.charCodeAt(i);
+    h = (Math.imul(h, 0x01000193) >>> 0);
+  }
+  const suffix = 1000 + (h % 9000);
+  return `${base}-${suffix}`;
+}
 ```
 
-**Avantages** :
-- URLs persistantes et prédictibles
-- Favorise les canonicals stables
-- Meilleur pour le PageRank SEO
-
-#### Chemin 2 : `artifacts/api-server/src/lib/annuaire-sync.ts` (Suffixe aléatoire)
+#### `artifacts/api-server/src/lib/annuaire-sync.ts` (lignes 22-24) — suffixe **ALÉATOIRE**
 
 ```typescript
-// Génère un slug avec suffixe aléatoire
-slug = `${normalizedName}-${randomSuffix}`
-// Exemple : "jean-dupont-diagnostiqueur-xyz789"
+function generateBaseSlug(nom: string, prenom: string): string {
+  const base = `${toSlug(prenom)}-${toSlug(nom)}`;
+  const suffix = Math.floor(1000 + Math.random() * 9000);   // ⚠️ Math.random() — non reproductible
+  return `${base}-${suffix}`;
+}
 ```
 
-**Problèmes** :
-- Slugs inconsistants sur re-sync
-- URLs instables → canonicals changeantes
-- Liens internes cassés après chaque sync
+**✅ Hypothèse initiale confirmée à 100%** : le script utilisé par le webhook `/api/cron/sync-annuaire` (celui qui tourne réellement en continu) génère un suffixe purement aléatoire pour chaque nouvelle fiche.
 
-### 2.3 Impact SEO de l'Instabilité
+### 2.3 La Vraie Cause Racine — Plus Profonde qu'un Simple Suffixe Aléatoire
 
-| Scénario | Comportement | Impact SEO |
-|----------|-------------|-----------|
-| Slug stable (ADI) | URL persistante | Equity de lien conservée |
-| Slug aléatoire (sync) | URL change à chaque sync | Canonical break, 404s, perte d'equity |
-| Ancien slug existant | Redirect vers accueil | Lien equity perdu, UX dégradée |
+En creusant plus loin, le suffixe aléatoire n'est qu'un symptôme. **Le vrai problème est la clé de correspondance utilisée pour identifier un diagnostiqueur d'une synchronisation à l'autre — identique et fragile dans les DEUX scripts** :
 
-**Recommandation** : Unifier sur `scripts/sync-adi.ts` (stable), avec 301 redirects depuis anciens slugs.
+```typescript
+// scripts/src/sync-adi.ts ligne 174 ET annuaire-sync.ts ligne 151 (IDENTIQUE) :
+const adiId = `${toSlug(nom)}|${toSlug(prenom)}|${cp}`;
+```
+
+Ce n'est **pas l'identifiant officiel ADI de data.gouv.fr** mais une clé composite reconstruite à partir du nom, prénom et code postal. Cette clé est fragile :
+
+- Un changement de code postal (déménagement, correction administrative), une reformulation du nom (accents, tirets, casse) dans l'export ADI suivant, et la clé composite **change**.
+- Le script ne retrouve plus la ligne existante → il **insère une nouvelle ligne** avec un **nouveau slug** (aléatoire côté webhook), pendant que l'ancienne ligne — introuvable dans le nouvel export CSV — est marquée `statut: 'inactif'` (lignes 300-317 d'`annuaire-sync.ts`) mais **jamais supprimée, ni redirigée**.
+- Aucun des deux scripts ne construit de table d'historique ancien-slug → nouveau-slug. Aucun mapping de redirection n'est jamais créé.
+- La colonne `slug_verrouille` (booléenne, existe dans le schéma `lib/db/src/schema/annuaire.ts` ligne 115, sélectionnée dans les deux scripts) est **sélectionnée mais jamais lue ni utilisée** dans la logique de synchronisation — c'est un garde-fou prévu mais jamais câblé.
+
+**Chaque événement de "dérive" de la clé composite produit donc, de façon permanente** :
+1. Une nouvelle URL active pour ce qui est en réalité le même professionnel (contenu quasi-identique)
+2. Une ancienne ligne `inactif` orpheline, dont l'URL n'est plus régénérée par `generate-pages.ts` (le script ne génère que `WHERE statut = 'actif'`, ligne 2078) au **prochain cycle de purge complète** (voir 2.4)
+
+### 2.4 Purge et Régénération — Pourquoi les Anciennes Pages Disparaissent Plutôt que de Rediriger
+
+`generate-pages.ts`, fonction `purgeScope()` (lignes ~2236-2260) :
+
+```typescript
+function purgeScope(scope: Scope) {
+  if (scope === "all") {
+    fs.rmSync(OUT_DIR, { recursive: true, force: true });   // wipe TOTAL du dossier de sortie
+    fs.mkdirSync(OUT_DIR, { recursive: true });
+    return;
+  }
+  // ...
+}
+```
+
+Comme les deux points d'entrée qui appellent réellement ce script en production (cron nocturne, webhook de sync) l'invoquent **sans aucun argument** (`parseScope()` retourne `"all"` par défaut), **chaque exécution efface intégralement `scripts/dist/annuaire/` puis ne réécrit que les fiches `actif`**. Résultat : dès qu'un diagnostiqueur passe `inactif` (à cause d'une dérive de clé composite ou d'un vrai retrait ADI), son fichier HTML disparaît du disque **au prochain cycle**, et Express retourne alors un **404** (`res.status(404).send("Page introuvable")`, `app.ts` ligne ~88) pour cette URL — il n'existe **aucun** `res.redirect()` vers la fiche courante ou vers l'accueil, nulle part dans le code Express pour les routes `/diag/*` ou `/diagnostiqueur/*` (vérifié par recherche exhaustive dans le dépôt).
+
+**Point non résolu par le code seul** : Google Search Console classe pourtant 9 638 URLs comme *"Page avec redirection"*, pas comme 404. Le seul mécanisme de redirection présent dans le dépôt est un fichier `_redirects` (`/diagnostiqueur/* /diag/:splat 301`) généré pour Cloudflare Pages — **inerte en pratique** puisque c'est Express, pas Cloudflare Pages, qui sert le domaine (Section 1.2 bis). La conclusion la plus probable est qu'**une règle de redirection existe au niveau de la zone Cloudflare elle-même** (Page Rule, Redirect Rule ou Worker configuré directement dans le dashboard, invisible dans ce dépôt Git) — reproduisant peut-être partiellement l'ancienne logique `_redirects`, mais sans jamais couvrir la dérive de slug par diagnostiqueur individuel. **Recommandation** : vérifier directement l'onglet Règles/Redirections de la zone Cloudflare pour `diagflow.fr`.
+
+### 2.5 Impact SEO — Résumé
+
+| Scénario | Comportement confirmé | Impact SEO |
+|----------|------------------------|-----------|
+| Slug stable, clé composite inchangée | URL persistante | ✅ Équité de lien conservée |
+| Dérive de la clé composite (nom/CP) | Nouvelle ligne + nouveau slug (aléatoire si via webhook), ancienne ligne `inactif` | Contenu quasi-dupliqué (2 URLs pour 1 professionnel) |
+| Purge complète au cycle suivant | Fichier de l'ancienne fiche supprimé du disque | 404 Express (sauf redirection Cloudflare externe non documentée) |
+| Aucune table de mapping ancien→nouveau slug | Aucun redirect 301 applicatif possible | Perte définitive d'équité de lien à chaque dérive |
+
+**Recommandation prioritaire** : (1) remplacer la clé composite nom/prénom/CP par le véritable identifiant unique du jeu de données ADI (data.gouv.fr) s'il existe dans le CSV source ; (2) unifier les deux scripts de sync en un seul, avec le suffixe déterministe de `sync-adi.ts` ; (3) créer une table `slug_history` alimentée à chaque désactivation, et un middleware Express qui consulte cette table pour émettre un vrai 301 avant de renvoyer 404 ; (4) cesser la purge totale (`scope=all`) à chaque cycle au profit d'une régénération incrémentale ciblée sur les IDs modifiés (`--diags=`), qui existe déjà dans le script mais n'est jamais utilisée par les deux points d'entrée de production.
 
 ---
 
-## 3. Hébergement et Déploiement
+## 3. Hébergement et Déploiement — CONFIRMÉ PAR LE CODE
 
-### 3.1 Configuration Cloudflare Pages
+### 3.1 Le Pipeline Cloudflare Pages est Legacy et Cassé à Deux Niveaux
 
-Le code contient des références à deux domaines historiques :
-- `diagassist.fr` (ancien)
-- `diagflow.fr` (actuel)
+**Référence au mauvais domaine** — `.github/workflows/deploy-annuaire.yml` (fichier unique du dossier workflows) :
 
-Les fichiers `cf-deploy-smart.ts` décrivent un déploiement intelligent vers Cloudflare Pages, mais la configuration réelle en production doit être vérifiée.
-
-### 3.2 Configuration Express/Replit
-
-Le serveur Express peut servir les pages statiques générées :
-
-```typescript
-// artifacts/api-server/src/index.ts
-app.use(express.static('./public')); // Sert pages générées
+```yaml
+name: Régénérer et déployer l'annuaire
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4 1 * *'        # ✅ confirme le "mensuel" mentionné dans le brief (1er du mois, 4h)
+jobs:
+  deploy:
+    steps:
+      - run: pnpm --filter @workspace/scripts run generate:annuaire
+        env:
+          ANNUAIRE_BASE_URL: https://annuaire.diagassist.fr      # ⚠️ ANCIEN domaine
+          ANNUAIRE_API_BASE_URL: https://diagassist.fr            # ⚠️ ANCIEN domaine
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          command: pages deploy scripts/dist/annuaire --project-name=annuaire-diagassist  # ⚠️ ANCIEN projet CF
 ```
 
-### 3.3 Tâches Planifiées en Conflit
+Ce workflow génère des pages avec des canonicals/URLs codées en dur vers `diagassist.fr` (l'ancien nom de domaine) et les pousse vers un projet Cloudflare Pages nommé `annuaire-diagassist` — vraisemblablement un projet différent de celui (s'il existe) lié au DNS actuel de `diagflow.fr`. **S'il s'exécute encore chaque mois, il ne fait probablement que mettre à jour un projet Cloudflare Pages orphelin, sans impact sur le site réellement visité.**
 
-#### Serveur Express (côté Replit)
+**Script de déploiement manquant** — `artifacts/api-server/src/index.ts` référence `scripts/run-deploy-cloudflare.sh` pour le déploiement automatique nocturne : **ce fichier n'existe pas dans le dépôt**. Toute tentative de déploiement Cloudflare depuis le cron serveur échoue silencieusement.
 
-```typescript
-// index.ts : tâche quotidienne conditionnelle
-schedule('daily', async () => {
-  if (shouldDeploy()) {
-    await deployToCloudflare();
-  }
-});
-```
+**Conclusion** : quel que soit l'état de `ANNUAIRE_AUTO_DEPLOY` ou du workflow GitHub Actions, **aucun déploiement Cloudflare Pages fonctionnel n'affecte le domaine `annuaire.diagflow.fr`** actuellement servi par Express (voir Section 1.2 bis).
 
-**Fréquence** : Quotidienne  
-**Condition** : À déterminer dans le code  
+### 3.2 Le Pipeline Réellement Actif — Express/Replit
 
-#### GitHub Actions (Workflow)
+Confirmé par `app.ts` : Express sert `scripts/dist/annuaire/` directement via `express.static()` pour les requêtes dont le `hostname` est `annuaire.diagflow.fr`. Ce dossier est régénéré par deux mécanismes concurrents :
 
-**Configuration** : Déploiement mensuel (selon replit.md)  
-**Référence** : Ancienne configuration diagassist.fr  
-**Statut** : À vérifier si actif en production  
+| Déclencheur | Fichier source | Fréquence | Resynchronise les données ADI ? | Régénère le HTML ? | Déploie sur Cloudflare ? |
+|---|---|---|---|---|---|
+| Démarrage serveur (1ère fois, table vide) | `index.ts` lignes 74-98 | Une fois (bootstrap) | ✅ via `sync-adi.ts` (slug stable) | ✅ | Tentative (cassée) |
+| **Cron nocturne 2h00** | `index.ts` ligne 200, `cron.schedule("0 2 * * *")` | **Quotidienne**, si `ANNUAIRE_AUTO_DEPLOY=true` | ❌ Non — régénère juste le HTML depuis l'état actuel de la DB | ✅ (scope=all, purge totale) | Tentative (cassée) |
+| **Webhook `/api/cron/sync-annuaire`** | `routes/cron.ts` ligne 105+ | Externe (hors dépôt), commentaire indique **hebdomadaire** | ✅ via `annuaire-sync.ts` (slug **aléatoire**) | ✅ (scope=all, purge totale) | ❌ Aucune tentative (pas de deploy après regen) |
 
-### 3.4 Résolutions à Obtenir
+Ceci confirme et affine le point du brief sur les "tâches planifiées en conflit" : ce n'est pas tant un conflit entre deux déploiements qui s'écrasent, mais **un cron quotidien qui ne fait que du HTML statique (inoffensif en soi) et un webhook externe, moins fréquent, qui est l'unique porte d'entrée des nouvelles données ADI — et c'est ce dernier qui introduit à la fois les slugs aléatoires et, à chaque exécution, une purge complète qui fait disparaître les fiches tout juste désactivées** (voir Section 2.4).
 
-```
-┌─────────────────────────────────────────────────────┐
-│ HÉBERGEMENT EFFECTIF : Cloudflare Pages ou Express ? │
-├─────────────────────────────────────────────────────┤
-│ 1. Exécuter : curl -I https://annuaire.diagflow.fr  │
-│    → Vérifier headers (Server, X-Served-By, etc.)    │
-│                                                      │
-│ 2. Console Cloudflare :                              │
-│    → Vérifier que Pages est configuré pour ce domaine │
-│    → Vérifier déploiements récents                    │
-│                                                      │
-│ 3. Logs Replit Express :                             │
-│    → Vérifier si annuaire.diagflow.fr hit le serveur │
-│    → Vérifier la fréquence de déploiement            │
-│                                                      │
-│ 4. DNS Cloudflare :                                  │
-│    → Vérifier les records CNAME/A pointant vers      │
-│      Pages ou vers Replit                            │
-└─────────────────────────────────────────────────────┘
-```
+### 3.3 Statut Final des Questions d'Hébergement
+
+| Question | Statut |
+|---|---|
+| Qui sert annuaire.diagflow.fr ? | ✅ **Express/Replit, confirmé par le code** (`app.ts`) |
+| Le déploiement Cloudflare Pages fonctionne-t-il ? | ❌ **Non — cassé à 2 niveaux** (script manquant + mauvais domaine dans le CI) |
+| Quelle tâche pilote réellement le contenu ? | ✅ **Le webhook `/api/cron/sync-annuaire`**, fréquence exacte à confirmer côté infra (hors dépôt Git) |
+| Reste à vérifier hors code | Config Cloudflare zone-level (redirections, cache) — dashboard uniquement, voir Section 2.4 |
 
 ---
 
@@ -461,19 +527,23 @@ Le décalage de 8 jours entre la récupération de visibilité (9 sept., GSC) et
 ### Architecture
 
 ```
-Q1. Qui sert annuaire.diagflow.fr en production ?
-    A. Cloudflare Pages
-    B. Express/Replit
-    C. Hybride (statique sur Pages, API sur Express)
-    Méthode : Headers HTTP, logs, DNS records
+Q1. Qui sert annuaire.diagflow.fr en production ?                    [✅ RÉPONDU — CONFIRMÉ PAR LE CODE]
+    Réponse : B. Express/Replit.
+    Preuve : app.ts lignes 76-89 — express.static(annuaireDistDir) monté conditionnellement
+    sur req.hostname === "annuaire.diagflow.fr". Le pipeline Cloudflare Pages (workflow CI +
+    cron nocturne) est cassé (script de déploiement manquant, mauvais domaine dans le CI) et
+    n'affecte pas ce domaine. Voir Section 1.2 bis et 3.1.
 ```
 
 ```
-Q2. Quel système de sync était actif en août 2026 ?
-    A. sync-adi.ts (stable)
-    B. annuaire-sync.ts (aléatoire)
-    C. Alternation ou autre
-    Méthode : Git commit history, logs de déploiement
+Q2. Quel système de sync est actif en production (webhook /api/cron/sync-annuaire) ?  [✅ RÉPONDU]
+    Réponse : B. annuaire-sync.ts (suffixe ALÉATOIRE, Math.random()).
+    Preuve : routes/cron.ts ligne 113 importe et appelle runAdiSync() depuis
+    lib/annuaire-sync.ts, pas depuis scripts/src/sync-adi.ts. C'est ce endpoint HTTP
+    (déclenché en externe, hors dépôt Git, fréquence indiquée "hebdomadaire" en commentaire)
+    qui pilote réellement l'ajout/retrait de diagnostiqueurs en production — sync-adi.ts
+    (le script stable) ne s'exécute qu'une seule fois, au tout premier démarrage du serveur
+    si la table est vide. Voir Section 2.1-2.2.
 ```
 
 ### SEO
@@ -488,16 +558,22 @@ Q3. Les slugs URLs ont-ils changé entre juillet et août ?          [✅ RÉPON
 ```
 
 ```
-Q4. Existe-t-il des 301 redirects depuis anciens vers nouveaux slugs ?    [⚠️ PARTIELLEMENT RÉPONDU]
-    Observé : 9 638 URLs sont vues par Google comme "page avec redirection" — donc DES
-    redirects existent techniquement. Mais leur volume énorme et croissant (l'index a perdu
-    8 721 pages, -42%, depuis juillet et continue de baisser au 21/09) suggère soit :
-      a) des redirects en boucle/chaîne mal ciblés (ex. vers l'accueil au lieu de la fiche), soit
-      b) un cycle de resync qui régénère continuellement de nouvelles URLs, créant sans cesse
-         de nouvelles redirections orphelines plus vite qu'elles ne se stabilisent.
-    Impact confirmé : perte nette et continue d'inventaire indexé.
-    Action restante : vérifier avec curl -L sur un échantillon d'anciennes URLs (Wayback)
-    si la redirection cible bien la fiche actuelle ou l'accueil.
+Q4. Existe-t-il des 301 redirects depuis anciens vers nouveaux slugs ?    [✅ RÉPONDU — NON, CONFIRMÉ]
+    Réponse : NON, il n'existe aucun redirect applicatif dans Express pour les fiches
+    diagnostiqueurs. Recherche exhaustive de res.redirect() dans tout le dépôt : les seuls
+    redirects existants concernent les formulaires de leads (annuaire.ts) et les flux OAuth
+    (gmb.ts, paymentRedirect.ts) — aucun pour /diag/* ou /diagnostiqueur/*.
+    Le seul mécanisme prévu est un fichier _redirects (convention Cloudflare Pages,
+    "/diagnostiqueur/* /diag/:splat 301") généré par generate-pages.ts — mais INERTE en
+    production puisqu'Express, pas Cloudflare Pages, sert le site (voir Section 1.2 bis).
+    Quand un diagnostiqueur passe "inactif" (dérive de la clé de correspondance, voir Q2/
+    Section 2.3), son fichier HTML est supprimé au cycle de purge suivant (scope=all,
+    purgeScope() dans generate-pages.ts) et Express renvoie alors un 404 pur, pas un
+    redirect applicatif.
+    Point non résolu par le code seul : GSC classe 9 638 URLs comme "avec redirection", pas
+    404 — ceci suggère une règle configurée au niveau de la zone Cloudflare (Page Rule /
+    Redirect Rule / Worker), invisible dans ce dépôt Git. À vérifier directement dans le
+    dashboard Cloudflare de la zone diagflow.fr.
 ```
 
 ```
@@ -516,27 +592,28 @@ Q5. Google a-t-il détecté une penalité d'antispam ou un problème d'indexatio
 
 ## 9. Fichiers à Examiner en Détail
 
-### Priority 1 (Critique pour causes)
+### Priority 1 (Critique pour causes) — ✅ EXAMINÉS
 
-- [ ] `scripts/src/sync-adi.ts` — Logique de génération de slugs (stable)
-- [ ] `artifacts/api-server/src/lib/annuaire-sync.ts` — Alternative avec slugs aléatoires
-- [ ] `artifacts/api-server/src/index.ts` — Tâche planifiée, serveur, logs
-- [ ] `artifacts/api-server/src/routes/annuaire.ts` — Routes et formulaire leads
-- [ ] Git log et commit history (août 2026) — Quelle sync était active ?
+- [x] `scripts/src/sync-adi.ts` — Suffixe déterministe confirmé (hash FNV-1a de l'adi_id), n'écrase jamais le slug sur update. Ne s'exécute qu'au premier boot.
+- [x] `artifacts/api-server/src/lib/annuaire-sync.ts` — Suffixe `Math.random()` confirmé (ligne 24). C'est le script réellement actif en continu via le webhook.
+- [x] `artifacts/api-server/src/index.ts` — Cron nocturne 2h00 confirmé (`0 2 * * *`), régénère le HTML sans resync ADI ; déploiement Cloudflare cassé (`run-deploy-cloudflare.sh` introuvable).
+- [x] `artifacts/api-server/src/routes/cron.ts` — Endpoint `/api/cron/sync-annuaire` confirmé : appelle `annuaire-sync.ts` puis régénère les pages sans jamais redéployer sur Cloudflare.
+- [x] `artifacts/api-server/src/routes/annuaire.ts` — Redirects de formulaire de leads uniquement, aucun redirect de fiche.
+- [ ] Logs de déploiement / Git history réels (août 2026) — non disponibles dans l'export de code source ; à obtenir séparément si besoin de dater précisément une éventuelle bascule de format de slug.
 
-### Priority 2 (SEO technique)
+### Priority 2 (SEO technique) — ✅ EXAMINÉS
 
-- [ ] `scripts/src/generate-pages.ts` — Génération HTML et insertion canonicals
-- [ ] `scripts/src/generate-seo-content.ts` — Génération textes SEO (titres, descriptions)
-- [ ] `lib/db/src/schema/annuaire.ts` — Structure données et champs uniques
-- [ ] `artifacts/diag-saas/src/` — Interface React (architecture)
+- [x] `scripts/src/generate-pages.ts` — Purge complète (`scope=all`) à chaque cycle confirmée (fonction `purgeScope()`) ; ne régénère que les diagnostiqueurs `actif` ; mode incrémental `--diags=` existe mais n'est utilisé par aucun point d'entrée de production ; fichier `_redirects` généré mais inerte (convention Cloudflare Pages, site servi par Express).
+- [x] `scripts/src/generate-seo-content.ts` — Contenu généré via l'API Anthropic (claude-haiku-4-5) pour la majorité des champs — bon point pour l'unicité du contenu ; méta-description et FAQ courte restent template-only (sans appel API), point de vigilance mineur pour la Section 5.
+- [x] `lib/db/src/schema/annuaire.ts` — Index unique confirmé sur `adiId` et sur `slugComplet` ; colonne `slugVerrouille` définie mais jamais lue/utilisée par aucun script de sync (garde-fou mort).
+- [ ] `artifacts/diag-saas/src/` — Interface React (SaaS diagnostiqueur), hors périmètre direct de l'annuaire public, non examiné en détail.
 
-### Priority 3 (Infrastructure)
+### Priority 3 (Infrastructure) — ✅ EXAMINÉS
 
-- [ ] `scripts/src/cf-deploy-smart.ts` — Configuration Cloudflare Pages
-- [ ] `.github/workflows/` — GitHub Actions workflows
-- [ ] `replit.md` — Documentation configuration monorepo
-- [ ] DNS/Cloudflare config — Records actuels pour annuaire.diagflow.fr
+- [x] `scripts/src/cf-deploy-smart.ts` — Existe et gère un déploiement Cloudflare Pages manuel (`pnpm deploy:pages`), mais n'est appelé par aucun cron automatique en production (le cron nocturne appelle un script shell séparé et manquant, pas ce fichier directement).
+- [x] `.github/workflows/deploy-annuaire.yml` — Confirmé mensuel (`0 4 1 * *`), cible l'ancien domaine `diagassist.fr` et l'ancien projet Cloudflare Pages `annuaire-diagassist`. Recommandé : nettoyer ou mettre à jour ce workflow pour éviter toute confusion future.
+- [ ] `replit.md` — Absent de l'archive source fournie.
+- [ ] DNS/Cloudflare config (zone dashboard) — Non accessible depuis le code source ; reste la seule vérification externe nécessaire pour élucider l'origine des 9 638 "pages avec redirection" (Section 2.4).
 
 ---
 
@@ -569,37 +646,44 @@ Q5. Google a-t-il détecté une penalité d'antispam ou un problème d'indexatio
 
 ---
 
-## 11. Conclusion (mise à jour avec données GSC confirmées)
+## 11. Conclusion Finale (données GSC + code source confirmés)
 
-L'analyse des exports Google Search Console révèle **deux problèmes distincts**, et non un seul événement :
+Cet audit croise deux sources indépendantes — les exports Google Search Console et le code source complet du monorepo — qui **convergent et se confirment mutuellement** :
 
-1. ✅ **CONFIRMÉ — Fuite chronique d'index (-42% depuis juillet, active en continu)** : 92% des pages non-indexées s'expliquent par des redirections orphelines et des conflits de canonical, signature directe de l'instabilité des deux scripts de synchronisation ADI (slug stable vs aléatoire). C'est le problème **le plus grave et le plus coûteux à long terme**, car il continue de s'aggraver indépendamment de l'épisode d'août — au dernier point de données (21 sept.), l'index continue de perdre des pages.
+1. ✅ **CONFIRMÉ (GSC + code) — Fuite chronique d'index (-42% depuis juillet, active en continu)**. Mécanisme exact identifié dans le code :
+   - Le webhook `/api/cron/sync-annuaire` (`routes/cron.ts`) — pas le script `sync-adi.ts` stable — pilote réellement les données ADI en continu, via `annuaire-sync.ts`.
+   - Ce script génère un suffixe de slug **aléatoire** (`Math.random()`, ligne 24) pour toute fiche qu'il croit "nouvelle".
+   - Il croit à tort qu'une fiche est nouvelle dès que sa **clé de correspondance fragile** (`nom|prenom|codePostal`, pas un identifiant ADI officiel stable) change entre deux exports — un simple changement de code postal ou de formatage du nom suffit.
+   - L'ancienne fiche est marquée `inactif` mais jamais supprimée ni redirigée ; son fichier HTML disparaît au cycle de purge suivant (`purgeScope("all")`, exécuté par défaut à chaque régénération) ; Express renvoie alors un 404 pur — **aucun `res.redirect()` n'existe dans le code** pour ces routes.
+   - Résultat cumulé sur 3 mois : -8 721 pages indexées, dont 92% classées par Google comme redirection orpheline ou conflit de canonical.
 
-2. 🟡 **PROBABLE — Suppression algorithmique ponctuelle (20 août – 8 sept.)** : chute de -98% des clics et -92% des impressions, avec un nombre de pages indexées **parfaitement stable** pendant toute la durée de l'épisode. Cela exclut formellement une cause technique (panne, blocage crawler, erreurs serveur) et pointe vers une réévaluation algorithmique du site dans son ensemble, cohérente avec la fenêtre de déploiement de l'update antispam signalée par le client. Récupération instantanée et complète, à 100%, en un seul jour (9 septembre) — pattern typique de fin de rollout d'update plutôt que de récupération progressive suite à correctif manuel.
+2. 🟡 **PROBABLE (GSC seul) — Suppression algorithmique ponctuelle (20 août – 8 sept.)** : chute de -98% des clics avec indexation **parfaitement stable** pendant l'épisode — élimine une cause technique et pointe vers une réévaluation algorithmique cohérente avec l'update antispam signalée. Récupération instantanée et totale le 9 septembre. Non entièrement confirmable sans le rapport "Actions manuelles" de Search Console (hors périmètre de cet export).
 
-3. ❌ **INFIRMÉ** : Aucune preuve de panne technique, de blocage robots.txt, ou de désindexation massive pendant l'épisode d'août — l'indexation est restée stable durant toute la période de chute.
+3. ✅ **CONFIRMÉ (code) — Architecture d'hébergement élucidée** : Express/Replit sert directement `annuaire.diagflow.fr` ; le pipeline Cloudflare Pages (workflow GitHub Actions mensuel + cron nocturne serveur) est cassé et vestigial, sans impact sur le site réel, mais source de confusion pour la maintenance.
 
-**Ce qui reste à vérifier** pour clore complètement le dossier :
-- Rapport "Actions manuelles" de Search Console (non inclus dans cet export)
-- Confirmation via Wayback Machine du changement effectif de format de slug et de sa date
-- Cible réelle des 9 638 redirections (fiche actuelle vs accueil)
-- Quel script de sync (stable vs aléatoire) tournait effectivement en juillet-août (logs de déploiement / git history)
+4. ❌ **INFIRMÉ** : Aucune preuve de panne technique, de blocage robots.txt, ou de désindexation massive pendant l'épisode d'août — l'indexation est restée stable durant toute la période de chute.
 
-**Priorité d'action** : Le Phénomène A (fuite d'index) doit être corrigé immédiatement — il s'agit d'un problème actif qui continue de dégrader l'inventaire indexé à chaque cycle de synchronisation, indépendamment de tout facteur externe Google. Le Phénomène B semble résolu de lui-même mais mérite une vérification finale (actions manuelles) avant d'être classé comme définitivement clos.
+**Ce qu'il reste à vérifier hors du dépôt Git** (uniquement des vérifications d'infrastructure externe) :
+- Rapport "Actions manuelles" de Search Console, pour clore définitivement le Phénomène B
+- Configuration de la zone Cloudflare (`diagflow.fr`) — Page Rules / Redirect Rules / Workers — pour élucider l'origine des 9 638 URLs classées "avec redirection" par Google alors que le code Express ne produit aucun redirect applicatif
+- Confirmation de la fréquence exacte du déclenchement du webhook `/api/cron/sync-annuaire` (config hors dépôt : Replit Scheduled Deployments ou service de cron externe)
+
+### Plan de Correction Priorisé
+
+| # | Action | Fichier(s) concerné(s) | Priorité |
+|---|--------|------------------------|----------|
+| 1 | Remplacer la clé de correspondance `nom|prenom|CP` par l'identifiant officiel et stable du jeu de données ADI (data.gouv.fr) | `sync-adi.ts` + `annuaire-sync.ts` | 🔴 Critique |
+| 2 | Supprimer `annuaire-sync.ts` et unifier sur un seul script de sync (le suffixe déterministe de `sync-adi.ts`), appelé par le webhook `/api/cron/sync-annuaire` | `routes/cron.ts` | 🔴 Critique |
+| 3 | Créer une table `slug_history` (ancien slug → nouveau slug, ou → statut inactif) alimentée à chaque désactivation, et un middleware Express consultant cette table pour émettre un vrai 301 avant le 404 catch-all | `app.ts`, nouveau fichier lib | 🔴 Critique |
+| 4 | Cesser la purge totale (`scope=all`) sur les deux points d'entrée de production ; utiliser le mode incrémental `--diags=` déjà implémenté mais jamais invoqué | `index.ts`, `routes/cron.ts` | 🟠 Haute |
+| 5 | Nettoyer ou corriger le workflow GitHub Actions (domaine et projet Cloudflare Pages obsolètes) et retirer le mécanisme `_redirects`/`spawnCloudfareDeploy` inerte, ou le réparer si un usage réel est prévu | `.github/workflows/deploy-annuaire.yml`, `index.ts` | 🟡 Moyenne |
+| 6 | Vérifier et documenter la configuration de redirection au niveau de la zone Cloudflare | Dashboard Cloudflare (hors dépôt) | 🟠 Haute |
+| 7 | Consulter le rapport Actions Manuelles GSC pour clore le Phénomène B | Search Console (hors dépôt) | 🟡 Moyenne |
+| 8 | Re-exporter GSC Couverture dans 2-3 semaines après les correctifs 1-4 pour vérifier l'inversion de la courbe de désindexation | Search Console (hors dépôt) | 🟢 Suivi |
 
 ---
 
-## Prochaines Étapes (mises à jour)
-
-1. ✅ **Fait** : Analyse des exports GSC Performance + Couverture — deux causes séparées identifiées et quantifiées
-2. **Immédiat** : Vérifier le rapport "Sécurité et actions manuelles" GSC pour clore Q5 définitivement
-3. **Immédiat** : Identifier et corriger la cible des 9 638 URLs en redirection (vers fiche actuelle, pas accueil)
-4. **Court terme** : Auditer git history / logs de déploiement pour confirmer quel script de sync était actif et migrer vers le slug stable (`sync-adi.ts`) de façon unique et exclusive
-5. **Court terme** : Mettre en place un mapping de redirections 301 systématique ancien-slug → nouveau-slug à chaque resync futur
-6. **Suivi** : Re-exporter GSC Couverture dans 2-3 semaines pour vérifier que la courbe de désindexation s'inverse après correctif
-
----
-
-**Audit réalisé par** : Claude Haiku 4.5  
+**Audit réalisé par** : Claude (Haiku 4.5 puis Sonnet 5)  
 **Session** : claude/diagflow-annuaire-audit-6dgd99  
-**Branche de travail** : claude/diagflow-annuaire-audit-6dgd99
+**Branche de travail** : claude/diagflow-annuaire-audit-6dgd99  
+**Sources** : Export GSC Performance + Couverture (27/09/2026) ; code source complet du monorepo (`annuaire-source-claude.zip`)
